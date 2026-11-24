@@ -2,7 +2,7 @@
 /**
  * Plugin Name: CodeOn Shipping Rules for WooCommerce
  * Description: Configure table-rate shipping, simulate shipping quotes, and safely publish changes.
- * Version: 1.0.6
+ * Version: 1.0.7
  * Requires at least: 6.8
  * Requires PHP: 8.1
  * Requires Plugins: woocommerce
@@ -21,7 +21,7 @@ declare(strict_types=1);
 defined('ABSPATH') || exit;
 
 define('CODEON_SHIPPING_RULES_FILE', __FILE__);
-define('CODEON_SHIPPING_RULES_VERSION', '1.0.6');
+define('CODEON_SHIPPING_RULES_VERSION', '1.0.7');
 define('CODEON_SHIPPING_RULES_UPDATE_URI', 'https://github.com/Samsiani/codeon-shipping-rules');
 
 if (!is_file(__DIR__ . '/vendor/autoload_packages.php')) {

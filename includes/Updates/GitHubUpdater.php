@@ -36,15 +36,18 @@ final class GitHubUpdater
         add_filter('upgrader_pre_download', [$this, 'verifiedDownload'], 10, 4);
         add_action('delete_site_transient_update_plugins', [$this, 'flush']);
         add_action('upgrader_process_complete', [$this, 'flush']);
-        // Dashboard → Updates → "Check again" must see a release published minutes ago.
-        add_action('load-update-core.php', [$this, 'flushOnForceCheck'], 9);
+        // Dashboard → Updates must see a release published minutes ago.
+        add_action('load-update-core.php', [$this, 'refreshOnUpdatesPage'], 9);
     }
 
-    public function flushOnForceCheck(): void
+    public function refreshOnUpdatesPage(): void
     {
+        // The Updates screen always asks GitHub again instead of showing a cached release.
+        $this->flush();
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only flag; WordPress core uses the same request to re-check updates.
         if (!empty($_GET['force-check'])) {
-            $this->flush();
+            // "Check again" must not be skipped by WordPress's one-minute update-check throttle.
+            delete_site_transient('update_plugins');
         }
     }
 
