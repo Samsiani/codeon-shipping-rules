@@ -17,7 +17,7 @@ final class GitHubUpdater
 {
     public const SLUG = 'codeon-shipping-rules';
     private const CACHE_KEY = 'codeon_sr_github_release';
-    private const CACHE_TTL = 3 * HOUR_IN_SECONDS;
+    private const CACHE_TTL = HOUR_IN_SECONDS;
     private const FAILURE_TTL = 15 * MINUTE_IN_SECONDS;
 
     public function __construct(
@@ -36,6 +36,16 @@ final class GitHubUpdater
         add_filter('upgrader_pre_download', [$this, 'verifiedDownload'], 10, 4);
         add_action('delete_site_transient_update_plugins', [$this, 'flush']);
         add_action('upgrader_process_complete', [$this, 'flush']);
+        // Dashboard → Updates → "Check again" must see a release published minutes ago.
+        add_action('load-update-core.php', [$this, 'flushOnForceCheck'], 9);
+    }
+
+    public function flushOnForceCheck(): void
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only flag; WordPress core uses the same request to re-check updates.
+        if (!empty($_GET['force-check'])) {
+            $this->flush();
+        }
     }
 
     public function update(mixed $update, array $pluginData, string $pluginFile): mixed

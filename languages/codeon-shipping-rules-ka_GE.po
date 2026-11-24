@@ -1812,3 +1812,41 @@ msgstr "ამ ტარიფის დამალვა"
 #: assets/admin/workspace.js:762
 msgid "Count them as zero"
 msgstr "ნულად ჩათვლა"
+
+#: assets/admin/workspace.js:874
+#, php-format
+msgid "from %s"
+msgstr "%s-დან"
+
+#: assets/admin/workspace.js:875
+#, php-format
+msgid "up to %s"
+msgstr "%s-მდე"
+
+#: assets/admin/workspace.js:877
+#, php-format
+msgid "outside %s"
+msgstr "%s-ის გარეთ"
+
+#: assets/admin/workspace.js:887
+msgid "Applies to every order"
+msgstr "ყველა შეკვეთაზე მოქმედებს"
+
+#: assets/admin/workspace.js:889
+msgid "or"
+msgstr "ან"
+
+#: assets/admin/workspace.js:1606
+msgid "Choose file"
+msgstr "ფაილის არჩევა"
+
+#: assets/admin/workspace.js:1603
+msgid "No file chosen"
+msgstr "ფაილი არჩეული არ არის"
+
+#: assets/admin/workspace.js:884
+#, php-format
+msgid "%d value"
+msgid_plural "%d values"
+msgstr[0] "%d მნიშვნელობა"
+msgstr[1] "%d მნიშვნელობა"
