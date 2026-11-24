@@ -1780,3 +1780,35 @@ msgstr "უფასო მიწოდების მაჩვენებე�
 msgctxt "block description"
 msgid "Show progress towards free shipping for eligible delivery methods."
 msgstr "აჩვენებს უფასო მიწოდებამდე დარჩენილ თანხას ან რაოდენობას ხელმისაწვდომი მეთოდებისთვის."
+
+#: includes/Updates/GitHubUpdater.php:119
+msgid "The downloaded CodeOn Shipping Rules package failed its checksum. The update was not installed."
+msgstr "ჩამოტვირთულმა CodeOn Shipping Rules-ის პაკეტმა საკონტროლო ჯამის შემოწმება ვერ გაიარა. განახლება არ დაყენებულა."
+
+#: includes/Rules/ValidationMessages.php:127 assets/admin/workspace.js:796
+msgid "Show the free label whenever the rate costs nothing"
+msgstr "უფასო ტარიფის სახელის ჩვენება ყოველთვის, როცა მიწოდების ფასი 0-ია"
+
+#: includes/Rules/ValidationMessages.php:128 assets/admin/workspace.js:802
+msgid "Free label position"
+msgstr "უფასო ტარიფის სახელის მდებარეობა"
+
+#: assets/admin/workspace.js:84
+msgid "Instead of the method title"
+msgstr "მეთოდის სახელის ნაცვლად"
+
+#: assets/admin/workspace.js:85
+msgid "After the method title, in brackets"
+msgstr "მეთოდის სახელის შემდეგ, ფრჩხილებში"
+
+#: includes/Rules/ValidationMessages.php:129 assets/admin/workspace.js:760
+msgid "When a product has no weight or dimensions"
+msgstr "როცა პროდუქტს წონა ან ზომები არ აქვს"
+
+#: assets/admin/workspace.js:761
+msgid "Hide this rate"
+msgstr "ამ ტარიფის დამალვა"
+
+#: assets/admin/workspace.js:762
+msgid "Count them as zero"
+msgstr "ნულად ჩათვლა"

@@ -80,6 +80,10 @@
         package: __('Current package', 'codeon-shipping-rules'),
         cart: __('Whole cart', 'codeon-shipping-rules'),
     };
+    const labelFormats = {
+        replace: __('Instead of the method title', 'codeon-shipping-rules'),
+        append: __('After the method title, in brackets', 'codeon-shipping-rules'),
+    };
     const actions = {
         continue: text.continue,
         stop: __('Apply the charge and stop', 'codeon-shipping-rules'),
@@ -394,8 +398,9 @@
             default: false,
             logged_in_only: false,
             dim_divisor: '5000',
+            missing_measurements: 'unavailable',
             bridge_rate_ids: [],
-            free: { mode: 'none', threshold: '', before_discount: false, label: '', notice: false, scope: 'cart' },
+            free: { mode: 'none', threshold: '', before_discount: false, label: '', notice: false, scope: 'cart', label_on_zero: false, label_format: 'replace' },
             rules: [],
         };
     }
@@ -752,6 +757,10 @@
                 field(__('Dimensional weight divisor', 'codeon-shipping-rules'),
                     decimal(config.dim_divisor, change(config, 'dim_divisor')),
                     __('Used when a rule measures dimensional weight.', 'codeon-shipping-rules')),
+                field(__('When a product has no weight or dimensions', 'codeon-shipping-rules'), select(config.missing_measurements || 'unavailable', {
+                    unavailable: __('Hide this rate', 'codeon-shipping-rules'),
+                    zero: __('Count them as zero', 'codeon-shipping-rules'),
+                }, change(config, 'missing_measurements'))),
                 field(__('Minimum shipping charge', 'codeon-shipping-rules'), decimal(config.min_cost, change(config, 'min_cost'))),
                 field(__('Maximum shipping charge', 'codeon-shipping-rules'), decimal(config.max_cost, change(config, 'max_cost'))),
                 native ? field(__('Fallback charge', 'codeon-shipping-rules'), decimal(config.fallback, change(config, 'fallback')),
@@ -784,11 +793,19 @@
             const visible = free.mode && free.mode !== 'none';
             const amountRequired = visible && free.mode !== 'coupon';
             const isQuantity = free.mode === 'quantity';
+            const labelled = visible || free.label_on_zero;
             container.replaceChildren(...[mode,
                 amountRequired ? field(isQuantity ? __('Minimum items', 'codeon-shipping-rules') : __('Minimum value', 'codeon-shipping-rules'),
                     decimal(free.threshold, change(free, 'threshold'), { required: true })) : null,
                 visible ? field(__('Threshold applies to', 'codeon-shipping-rules'), select(free.scope || 'cart', scopes, change(free, 'scope'))) : null,
-                visible ? field(__('Free rate label', 'codeon-shipping-rules'), input(free.label, change(free, 'label'), { maxlength: '120' })) : null,
+                checkbox(__('Show the free label whenever the rate costs nothing', 'codeon-shipping-rules'), free.label_on_zero, value => {
+                    free.label_on_zero = value;
+                    markDirty();
+                    draw();
+                }),
+                labelled ? field(__('Free rate label', 'codeon-shipping-rules'), input(free.label, change(free, 'label'), { maxlength: '120' })) : null,
+                labelled ? field(__('Free label position', 'codeon-shipping-rules'),
+                    select(free.label_format || 'replace', labelFormats, change(free, 'label_format'))) : null,
                 amountRequired && !isQuantity ? checkbox(__('Use the value before discounts', 'codeon-shipping-rules'),
                     free.before_discount, change(free, 'before_discount')) : null,
                 amountRequired ? checkbox(__('Show progress toward free shipping', 'codeon-shipping-rules'),
@@ -796,7 +813,7 @@
             ].filter(Boolean));
         }
         draw();
-        return node('details', { class: 'csr-details', open: free.mode && free.mode !== 'none' },
+        return node('details', { class: 'csr-details', open: (free.mode && free.mode !== 'none') || free.label_on_zero },
             node('summary', {}, __('Free shipping', 'codeon-shipping-rules')), container);
     }
 

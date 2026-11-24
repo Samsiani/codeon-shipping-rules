@@ -6,6 +6,14 @@ Free GPL table-rate shipping in the CodeOn family. [Download the latest install 
 
 Run `composer install --no-dev --optimize-autoloader` and `python3 tools/package.py dist` from the source directory. The install ZIP includes production dependencies. The separately generated source ZIP includes the patched GPL framework snapshot and the Composer lockfile. The framework patch adds a hub manifest preference for loading the commercial catalog, preserving the existing default for other CodeOn products.
 
+## Releases and updates
+
+Bump the version in the plugin header, `CODEON_SHIPPING_RULES_VERSION` and the readme `Stable tag`, add a changelog entry, then push a tag `vX.Y.Z`. CI builds the install ZIP, the source ZIP, `update.json` and `SHA256SUMS.txt` and publishes them as the GitHub release.
+
+Installed sites read `update.json` from the latest release through `/releases/latest/download/update.json`, not the rate-limited GitHub API. WordPress offers the update and installs it automatically after the plugin checks the ZIP against the SHA-256 in `update.json`. Set `CODEON_SHIPPING_RULES_AUTO_UPDATE` to `false` in `wp-config.php` to keep updates manual. A release without `update.json` is not offered to sites.
+
+## Tests
+
 Run `php tests/Unit/run.php` for engine assertions. Use `php -l` and `node --check` to verify PHP and JavaScript syntax. Run `wp eval-file tests/Integration/rest-lifecycle.php --user=<sandbox-admin>` against a local or development WordPress site with WooCommerce and this plugin active. The fixture creates and removes its own shipping zone and methods.
 
 ## Configuration

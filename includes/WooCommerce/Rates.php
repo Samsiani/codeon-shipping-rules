@@ -150,8 +150,9 @@ final class Rates
             $rate->add_meta_data('_codeon_sr_base_rate', wc_format_decimal($base));
             $rate->add_meta_data('_codeon_sr_default', $config['default'] ? 'yes' : '');
 
-            if ($quote['free'] && $config['free']['label'] !== '') {
-                $rate->set_label(ShippingTexts::get($instanceId, 'free_label', $config['free']['label']) ?: $rate->get_label());
+            if ($config['free']['label'] !== '') {
+                $freeLabel = ShippingTexts::get($instanceId, 'free_label', $config['free']['label']);
+                $rate->set_label(RateLabel::compose($rate->get_label(), $freeLabel, $config['free'], $quote));
             }
             if ($config['free']['notice'] && !empty($quote['progress'])) {
                 $rate->add_meta_data('_codeon_sr_progress', $quote['progress']);
