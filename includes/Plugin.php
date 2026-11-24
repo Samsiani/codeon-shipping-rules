@@ -60,10 +60,6 @@ final class Plugin
             ->icon(plugins_url('assets/icon/icon-128x128.png', CODEON_SHIPPING_RULES_FILE))
             ->support('https://codeon.ge/');
 
-        if (method_exists($manifest, 'hubCatalog')) {
-            $manifest->hubCatalog(false);
-        }
-
         // Allow a Shop Manager to reach our submenu on a standalone install.
         add_filter('codeon/hub/toplevel_config', static function (array $defaults, string $group): array {
             if ($group === 'codeon' && !is_callable($defaults['dashboardCallback'] ?? null)) {
