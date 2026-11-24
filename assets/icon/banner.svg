@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1544" height="500" viewBox="0 0 1544 500" role="img" aria-label="CodeOn Shipping Rules for WooCommerce">
+  <defs>
+    <linearGradient id="background" x2="100%" y2="100%">
+      <stop stop-color="#1e3a8a"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="parcel" x2="0%" y2="100%">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#e0e7ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1544" height="500" fill="url(#background)"/>
+  <g fill="none" stroke="#fff" stroke-width="3" opacity=".16">
+    <path d="M815 52H982Q1078 52 1140 124M847 444h234q85 0 145-74M1450 81h-105q-77 0-127 67M1458 389h-73q-55 0-104-57"/>
+    <circle cx="813" cy="52" r="8"/>
+    <circle cx="843" cy="444" r="8"/>
+    <circle cx="1458" cy="81" r="8"/>
+    <circle cx="1466" cy="389" r="8"/>
+  </g>
+  <g transform="translate(935 -40) scale(2.4)" stroke-linejoin="round">
+    <ellipse cx="121" cy="187" rx="70" ry="8" fill="#000" opacity=".18"/>
+    <path d="m121 59 64 34v58l-64 34-64-34V93z" fill="url(#parcel)"/>
+    <path d="m121 127 64-34v58l-64 34z" fill="#c7d2fe"/>
+    <path d="m57 93 64 34 64-34m-64 34v58m-33-108 64 34" fill="none" stroke="#1e40af" stroke-width="4"/>
+    <path d="M73 131c9 4 17 7 26 12m-9-16 9 16-14 3m53 1 25-13m-5 15 5-15-15 1" fill="none" stroke="#2563eb" stroke-linecap="round" stroke-width="5"/>
+  </g>
+  <g fill="#fff" font-family="system-ui, -apple-system, sans-serif">
+    <text x="104" y="192" font-size="78" font-weight="700" letter-spacing="-2">Shipping Rules</text>
+    <text x="106" y="260" font-size="43" font-weight="500">for WooCommerce</text>
+    <text x="108" y="319" font-size="26" opacity=".92">Set rates, test drafts, and publish with confidence.</text>
+    <text x="163" y="426" font-size="23" font-weight="600">codeon.ge</text>
+  </g>
+  <g transform="translate(127 418)" opacity=".9">
+    <rect x="-18" y="-18" width="36" height="36" rx="10" fill="none" stroke="#fff" stroke-width="3"/>
+    <path d="M-6-7-11 0-6 7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="6" r="3" fill="#fff"/>
+  </g>
+</svg>

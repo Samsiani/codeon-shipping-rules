@@ -1,0 +1,1779 @@
+# Copyright (C) 2026 CodeOn
+# Licensed with CodeOn Shipping Rules under GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: CodeOn Shipping Rules\n"
+"Report-Msgid-Bugs-To: https://codeon.ge/\n"
+"POT-Creation-Date: 2026-11-24\n"
+"PO-Revision-Date: 2026-11-24\n"
+"Last-Translator: CodeOn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: includes/Admin/Api.php:53
+msgid "The request is too large."
+msgstr ""
+
+#: includes/Admin/Api.php:65
+msgid "The request could not be completed. Try again."
+msgstr ""
+
+#: includes/Admin/Api.php:114
+msgid "Enter a delivery method name."
+msgstr ""
+
+#: includes/Admin/Api.php:144
+msgid "Change the live service status in WooCommerce Shipping Zones."
+msgstr ""
+
+#: includes/Admin/Api.php:147
+msgid "Choose whether to enable this method."
+msgstr ""
+
+#: includes/Admin/Api.php:150
+msgid "Publish rules before enabling this method."
+msgstr ""
+
+#: includes/Admin/Api.php:161
+msgid "Use an export to copy adjustments to another service."
+msgstr ""
+
+#. translators: %s: name of the method being duplicated.
+#: includes/Admin/Api.php:169
+#, php-format
+msgid "%s (copy)"
+msgstr ""
+
+#: includes/Admin/Api.php:208
+msgid "One of the selected products is unavailable."
+msgstr ""
+
+#: includes/Admin/Api.php:265
+msgid "Use a valid local time in hours and minutes."
+msgstr ""
+
+#: includes/Admin/Api.php:274
+msgid "Choose a valid WooCommerce currency."
+msgstr ""
+
+#: includes/Admin/Api.php:297
+msgid "A rule follows an unconditional stop or hide and cannot be reached."
+msgstr ""
+
+#: includes/Admin/Api.php:305
+msgid "Two pricing bands overlap. Review the combined price at their shared boundary."
+msgstr ""
+
+#: includes/Admin/Api.php:306
+msgid "Two pricing bands leave a gap where this method can disappear."
+msgstr ""
+
+#: includes/Admin/Api.php:307
+msgid "One pricing band has no matching values at the store’s precision."
+msgstr ""
+
+#: includes/Admin/Api.php:308
+msgid "The free-shipping threshold falls outside the eligible rate bands."
+msgstr ""
+
+#: includes/Admin/Api.php:309
+msgid "Review the rate bands and their boundaries."
+msgstr ""
+
+#: includes/Admin/Api.php:313
+msgid "This example has no rate for this method. Check the rules or add an intentional fallback."
+msgstr ""
+
+#: includes/Admin/Api.php:323
+msgid "Upload or paste a rules file."
+msgstr ""
+
+#: includes/Admin/Api.php:329
+msgid "Resolve the import issues before creating drafts."
+msgstr ""
+
+#: includes/Admin/Api.php:334
+msgid "Choose a single-method file to load into an existing draft."
+msgstr ""
+
+#: includes/Admin/Api.php:353
+msgid "Another import is running in this zone. Try again shortly."
+msgstr ""
+
+#: includes/Admin/Api.php:451
+msgid "A rules configuration is required."
+msgstr ""
+
+#: includes/Admin/Api.php:499
+msgid "That shipping method is unavailable."
+msgstr ""
+
+#: includes/Admin/Api.php:511
+msgid "That shipping zone is unavailable."
+msgstr ""
+
+#: includes/Admin/Api.php:524
+msgid "Enter valid scenario quantities and amounts."
+msgstr ""
+
+#: includes/Admin/Dashboard.php:16
+msgid "Methods"
+msgstr ""
+
+#: includes/Admin/Dashboard.php:17
+msgid "Simulator"
+msgstr ""
+
+#: includes/Admin/Dashboard.php:18
+msgid "Tools"
+msgstr ""
+
+#: includes/Admin/WorkspaceTab.php:32
+msgid "Loading shipping rules…"
+msgstr ""
+
+#: includes/Admin/WorkspaceTab.php:35
+msgid "Enable JavaScript to edit shipping rules, preview rates, and import settings."
+msgstr ""
+
+#: includes/Import/Flexible.php:37
+msgid "The method does not contain Flexible Shipping rules."
+msgstr ""
+
+#: includes/Import/Flexible.php:40
+msgid "This method uses a carrier integration. Import an export of its pricing rules and attach them to a supported service."
+msgstr ""
+
+#: includes/Import/Flexible.php:48 includes/Import/Flexible.php:103
+msgid "The source method rules are unreadable."
+msgstr ""
+
+#: includes/Import/Flexible.php:61
+msgid "Imported method"
+msgstr ""
+
+#. translators: %s: source condition type.
+#: includes/Import/Flexible.php:137
+#, php-format
+msgid "The source condition “%s” needs a manual replacement."
+msgstr ""
+
+#. translators: %s: source charging basis.
+#: includes/Import/Flexible.php:181
+#, php-format
+msgid "The surcharge basis “%s” needs a manual replacement."
+msgstr ""
+
+#. translators: %s: imported term.
+#: includes/Import/Flexible.php:207
+#, php-format
+msgid "Match the imported product term “%s” to a term on this site."
+msgstr ""
+
+#. translators: %s: imported product identifier.
+#: includes/Import/Flexible.php:217
+#, php-format
+msgid "Match the imported product “%s” to an item on this site."
+msgstr ""
+
+#: includes/Import/Importer.php:18
+msgid "Import files can be up to 1 MB."
+msgstr ""
+
+#: includes/Import/Importer.php:27
+msgid "Choose a supported import format."
+msgstr ""
+
+#: includes/Import/Importer.php:31
+msgid "Import a file containing between 1 and 50 shipping methods."
+msgstr ""
+
+#: includes/Import/Importer.php:39
+msgid "Imported shipping method"
+msgstr ""
+
+#: includes/Import/Importer.php:49
+msgid "This entry is not a shipping method object."
+msgstr ""
+
+#: includes/Import/Importer.php:63
+msgid "The file contains invalid JSON."
+msgstr ""
+
+#: includes/Import/Importer.php:66
+msgid "The JSON file must contain a rules configuration."
+msgstr ""
+
+#: includes/Import/Importer.php:70
+msgid "This CodeOn export version is unsupported."
+msgstr ""
+
+#: includes/Import/Importer.php:79
+msgid "Imported rules"
+msgstr ""
+
+#: includes/Import/Importer.php:83
+msgid "Choose a CodeOn export or select the Flexible Shipping import format."
+msgstr ""
+
+#: includes/Import/Importer.php:101
+msgid "The CSV header is missing required columns."
+msgstr ""
+
+#: includes/Import/Importer.php:108
+msgid "CSV imports can contain up to 1,000 rows."
+msgstr ""
+
+#. translators: %d: CSV line number.
+#: includes/Import/Importer.php:115
+#, php-format
+msgid "CSV row %d has the wrong number of columns."
+msgstr ""
+
+#: includes/Import/Importer.php:135
+msgid "Every CSV row needs a method title."
+msgstr ""
+
+#: includes/Import/Importer.php:163
+msgid "Every Flexible Shipping CSV row needs a method title."
+msgstr ""
+
+#: includes/Import/TierCsv.php:14
+msgid "Add at least one pricing tier before exporting to CSV."
+msgstr ""
+
+#: includes/Import/TierCsv.php:23
+msgid "This method uses complex rules. Export JSON to keep every condition and charge."
+msgstr ""
+
+#: includes/Import/TierCsv.php:28
+msgid "Export JSON to preserve condition values that contain a vertical bar."
+msgstr ""
+
+#: includes/Plugin.php:51 includes/Plugin.php:53
+msgid "Shipping Rules"
+msgstr ""
+
+#. translators: 1: the rule number, 2: a validation message.
+#: includes/Rules/ValidationMessages.php:14
+#, php-format
+msgid "Rule %1$d — %2$s"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:22
+msgid "Minimum cost cannot exceed maximum cost."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:23
+msgid "Duplicate rule ID."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:25
+msgid "Rule ID may contain only letters, numbers, underscores and hyphens."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:27
+msgid "Use a public product field key that starts with a letter."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:28
+msgid "Select at least one condition value."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:29
+msgid "Days of week must use numbers 1 through 7."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:30
+msgid "The condition range is empty."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:32
+msgid "Shipping calculation exceeds the supported numeric range."
+msgstr ""
+
+#. translators: %s: a configured condition type.
+#: includes/Rules/ValidationMessages.php:40
+#, php-format
+msgid "Unknown condition type “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:44
+#, php-format
+msgid "Enter a decimal number in “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:46
+#, php-format
+msgid "The value in “%s” cannot be negative."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:48
+#, php-format
+msgid "Enter a value greater than zero in “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:50
+#, php-format
+msgid "Use HH:MM in “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:52
+#, php-format
+msgid "Enter text in “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:54
+#, php-format
+msgid "Shorten the value in “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:56
+#, php-format
+msgid "Enter a whole number equal to or greater than zero in “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:58
+#, php-format
+msgid "Select a list of values in “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:60
+#, php-format
+msgid "Check the fields in “%s”."
+msgstr ""
+
+#. translators: %s: a field name.
+#: includes/Rules/ValidationMessages.php:75
+#, php-format
+msgid "Choose a valid value for “%s”."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:84 assets/admin/workspace.js:432
+msgid "Method name"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:85 assets/admin/workspace.js:721
+msgid "Checkout description"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:86 assets/admin/workspace.js:724
+msgid "Estimated delivery time"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:87 assets/admin/workspace.js:759
+msgid "Media attachment ID"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:88 assets/admin/workspace.js:718
+msgid "Shipping tax"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:89 assets/admin/workspace.js:748
+msgid "Order value basis"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:90 assets/admin/workspace.js:737
+msgid "Calculate from"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:91 assets/admin/workspace.js:738
+msgid "Combine matching rules"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:92 assets/admin/workspace.js:765
+msgid "Amounts already include shipping tax"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:93 assets/admin/workspace.js:767
+msgid "Prefer this method when no option is selected"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:94 assets/admin/workspace.js:769
+msgid "Require a signed-in customer"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:95 assets/admin/workspace.js:755
+msgid "Minimum shipping charge"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:96 assets/admin/workspace.js:756
+msgid "Maximum shipping charge"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:97 assets/admin/workspace.js:757
+msgid "Fallback charge"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:98 assets/admin/workspace.js:752
+msgid "Dimensional weight divisor"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:99 assets/admin/workspace.js:730
+msgid "Target rate IDs"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:100 assets/admin/workspace.js:976
+msgid "Rate rules"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:101 assets/admin/workspace.js:937
+msgid "Rule name"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:102 assets/admin/workspace.js:1129
+msgid "Conditions"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:103 assets/admin/workspace.js:1013
+msgid "Other condition"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:104 assets/admin/workspace.js:1039
+#: assets/admin/workspace.js:1061
+msgid "Comparison"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:105 assets/admin/workspace.js:1005
+msgid "Match conditions"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:106 assets/admin/workspace.js:1087
+#: assets/admin/workspace.js:1095
+msgid "Values"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:107 assets/admin/workspace.js:938
+msgid "Rule scope"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:108 assets/admin/workspace.js:948
+msgid "After a match"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:109 assets/admin/workspace.js:947
+msgid "Base charge"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:110 assets/admin/workspace.js:1204
+msgid "Price adjustments"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:111 assets/admin/workspace.js:1174
+msgid "Based on"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:112 assets/admin/workspace.js:23
+msgid "Amount"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:113 assets/admin/workspace.js:1182
+msgid "Increment size"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:114 assets/admin/workspace.js:1185
+msgid "Round increments"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:115 assets/admin/workspace.js:1044
+#: assets/admin/workspace.js:1068
+msgid "Product field key"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:116 assets/admin/workspace.js:1049
+msgid "From"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:117 assets/admin/workspace.js:1051
+msgid "To"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:118 assets/admin/workspace.js:1049
+msgid "From time"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:119 assets/admin/workspace.js:1051
+msgid "To time"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:120 assets/admin/workspace.js:800
+msgid "Free shipping"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:121 assets/admin/workspace.js:778
+msgid "Offer free shipping when"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:122 assets/admin/workspace.js:790
+msgid "Threshold applies to"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:123 assets/admin/workspace.js:788
+msgid "Minimum value"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:124 assets/admin/workspace.js:792
+msgid "Use the value before discounts"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:125 assets/admin/workspace.js:791
+msgid "Free rate label"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:126 assets/admin/workspace.js:794
+msgid "Show progress toward free shipping"
+msgstr ""
+
+#: includes/Storage/Revisions.php:65
+msgid "The draft could not be saved. Try again."
+msgstr ""
+
+#: includes/Storage/Revisions.php:83
+msgid "Save a new draft before publishing."
+msgstr ""
+
+#: includes/Storage/Revisions.php:100
+msgid "That revision is no longer available for rollback."
+msgstr ""
+
+#: includes/Storage/Revisions.php:140 includes/Storage/Revisions.php:171
+msgid "This method changed in another session. Reload it before saving."
+msgstr ""
+
+#: includes/WooCommerce/Checkout.php:39
+msgid "Free shipping progress for eligible rates."
+msgstr ""
+
+#: includes/WooCommerce/Checkout.php:141
+msgid "Free shipping is available for this service."
+msgstr ""
+
+#. translators: %s: remaining item quantity.
+#: includes/WooCommerce/Checkout.php:145
+#, php-format
+msgid "Add %s more item for free shipping."
+msgid_plural "Add %s more items for free shipping."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: remaining merchandise amount.
+#: includes/WooCommerce/Checkout.php:148
+#, php-format
+msgid "Add %s more for free shipping."
+msgstr ""
+
+#: includes/WooCommerce/ShippingMethod.php:26
+msgid "CodeOn Shipping Rules"
+msgstr ""
+
+#: includes/WooCommerce/ShippingMethod.php:27
+msgid "Create delivery prices and availability rules for this zone."
+msgstr ""
+
+#: includes/WooCommerce/ShippingMethod.php:51
+msgid "Edit this method, simulate a quote, and publish your rules in CodeOn Shipping Rules."
+msgstr ""
+
+#: includes/WooCommerce/ShippingMethod.php:53
+msgid "Edit shipping rules"
+msgstr ""
+
+#: codeon-shipping-rules.php:28
+msgid "CodeOn Shipping Rules needs the complete release ZIP."
+msgstr ""
+
+#: assets/admin/workspace.js:14
+msgid "Choose a shipping method."
+msgstr ""
+
+#: assets/admin/workspace.js:15
+msgid "Loading…"
+msgstr ""
+
+#: assets/admin/workspace.js:16
+msgid "You have unsaved changes."
+msgstr ""
+
+#: assets/admin/workspace.js:17
+msgid "The request failed. Refresh the page and try again."
+msgstr ""
+
+#: assets/admin/workspace.js:18
+msgid "None"
+msgstr ""
+
+#: assets/admin/workspace.js:19
+msgid "Rule"
+msgstr ""
+
+#: assets/admin/workspace.js:20
+msgid "Remove"
+msgstr ""
+
+#: assets/admin/workspace.js:21
+msgid "Continue"
+msgstr ""
+
+#: assets/admin/workspace.js:22
+msgid "Search"
+msgstr ""
+
+#: assets/admin/workspace.js:24
+msgid "Create a shipping method or select an existing method in a WooCommerce zone."
+msgstr ""
+
+#: assets/admin/workspace.js:25
+msgid "Saving…"
+msgstr ""
+
+#: assets/admin/workspace.js:28 assets/admin/workspace.js:1368
+msgid "Merchandise value"
+msgstr ""
+
+#: assets/admin/workspace.js:29
+msgid "Merchandise value including tax"
+msgstr ""
+
+#: assets/admin/workspace.js:30
+msgid "Value before discounts"
+msgstr ""
+
+#: assets/admin/workspace.js:31
+msgid "Value with tax before discounts"
+msgstr ""
+
+#: assets/admin/workspace.js:32
+msgid "Weight"
+msgstr ""
+
+#: assets/admin/workspace.js:33 assets/admin/workspace.js:1370
+msgid "Item quantity"
+msgstr ""
+
+#: assets/admin/workspace.js:34
+msgid "Cart lines"
+msgstr ""
+
+#: assets/admin/workspace.js:35
+msgid "Volume"
+msgstr ""
+
+#: assets/admin/workspace.js:36
+msgid "Dimensional weight"
+msgstr ""
+
+#: assets/admin/workspace.js:37
+msgid "Longest edge"
+msgstr ""
+
+#: assets/admin/workspace.js:38
+msgid "Sum of dimensions"
+msgstr ""
+
+#: assets/admin/workspace.js:39 assets/admin/workspace.js:1378
+msgid "Length"
+msgstr ""
+
+#: assets/admin/workspace.js:40 assets/admin/workspace.js:1379
+msgid "Width"
+msgstr ""
+
+#: assets/admin/workspace.js:41 assets/admin/workspace.js:1380
+msgid "Height"
+msgstr ""
+
+#: assets/admin/workspace.js:42
+msgid "Stock quantity"
+msgstr ""
+
+#: assets/admin/workspace.js:43
+msgid "Product field range"
+msgstr ""
+
+#: assets/admin/workspace.js:44
+msgid "Shipping cost so far"
+msgstr ""
+
+#: assets/admin/workspace.js:47
+msgid "Product"
+msgstr ""
+
+#: assets/admin/workspace.js:48
+msgid "Variation"
+msgstr ""
+
+#: assets/admin/workspace.js:49
+msgid "Product SKU"
+msgstr ""
+
+#: assets/admin/workspace.js:50
+msgid "Product category"
+msgstr ""
+
+#: assets/admin/workspace.js:51
+msgid "Product tag"
+msgstr ""
+
+#: assets/admin/workspace.js:52
+msgid "Shipping class"
+msgstr ""
+
+#: assets/admin/workspace.js:53
+msgid "Stock status"
+msgstr ""
+
+#: assets/admin/workspace.js:54
+msgid "Product field value"
+msgstr ""
+
+#: assets/admin/workspace.js:55 assets/admin/workspace.js:1390
+msgid "Customer role"
+msgstr ""
+
+#: assets/admin/workspace.js:56 assets/admin/workspace.js:1392
+msgid "Day of the week"
+msgstr ""
+
+#: assets/admin/workspace.js:57 assets/admin/workspace.js:1384
+msgid "Country code"
+msgstr ""
+
+#: assets/admin/workspace.js:58 assets/admin/workspace.js:1385
+msgid "State or region code"
+msgstr ""
+
+#: assets/admin/workspace.js:59 assets/admin/workspace.js:1386
+msgid "City"
+msgstr ""
+
+#: assets/admin/workspace.js:60 assets/admin/workspace.js:1387
+msgid "Postcode"
+msgstr ""
+
+#: assets/admin/workspace.js:61 assets/admin/workspace.js:1388
+msgid "Municipality"
+msgstr ""
+
+#: assets/admin/workspace.js:62 assets/admin/workspace.js:1389
+msgid "Settlement"
+msgstr ""
+
+#: assets/admin/workspace.js:63 assets/admin/workspace.js:1377
+msgid "Currency code"
+msgstr ""
+
+#: assets/admin/workspace.js:66
+msgid "General"
+msgstr ""
+
+#: assets/admin/workspace.js:66 assets/admin/workspace.js:1244
+msgid "Always"
+msgstr ""
+
+#: assets/admin/workspace.js:67
+msgid "Amounts and measurements"
+msgstr ""
+
+#: assets/admin/workspace.js:68
+msgid "Products, customers, and destinations"
+msgstr ""
+
+#: assets/admin/workspace.js:69
+msgid "Schedule"
+msgstr ""
+
+#: assets/admin/workspace.js:69 assets/admin/workspace.js:1244
+msgid "Time of day"
+msgstr ""
+
+#: assets/admin/workspace.js:72
+msgid "Off"
+msgstr ""
+
+#: assets/admin/workspace.js:73
+msgid "Minimum merchandise value"
+msgstr ""
+
+#: assets/admin/workspace.js:74
+msgid "Minimum item quantity"
+msgstr ""
+
+#: assets/admin/workspace.js:75
+msgid "Eligible free-shipping coupon"
+msgstr ""
+
+#: assets/admin/workspace.js:76
+msgid "Minimum value or eligible coupon"
+msgstr ""
+
+#: assets/admin/workspace.js:77
+msgid "Minimum value and eligible coupon"
+msgstr ""
+
+#: assets/admin/workspace.js:80
+msgid "Current package"
+msgstr ""
+
+#: assets/admin/workspace.js:81
+msgid "Whole cart"
+msgstr ""
+
+#: assets/admin/workspace.js:85
+msgid "Apply the charge and stop"
+msgstr ""
+
+#: assets/admin/workspace.js:86
+msgid "Hide this shipping rate"
+msgstr ""
+
+#: assets/admin/workspace.js:89
+msgid "Monday"
+msgstr ""
+
+#: assets/admin/workspace.js:89
+msgid "Tuesday"
+msgstr ""
+
+#: assets/admin/workspace.js:90
+msgid "Wednesday"
+msgstr ""
+
+#: assets/admin/workspace.js:90
+msgid "Thursday"
+msgstr ""
+
+#: assets/admin/workspace.js:91
+msgid "Friday"
+msgstr ""
+
+#: assets/admin/workspace.js:91
+msgid "Saturday"
+msgstr ""
+
+#: assets/admin/workspace.js:92
+msgid "Sunday"
+msgstr ""
+
+#: assets/admin/workspace.js:215 assets/admin/workspace.js:1584
+#, javascript-format
+msgid "Method %d"
+msgstr ""
+
+#: assets/admin/workspace.js:343
+msgid "No matching products."
+msgstr ""
+
+#: assets/admin/workspace.js:365
+msgid "Find by name or SKU"
+msgstr ""
+
+#: assets/admin/workspace.js:366
+msgid "Search products"
+msgstr ""
+
+#: assets/admin/workspace.js:377
+msgid "Enabled"
+msgstr ""
+
+#: assets/admin/workspace.js:377
+msgid "Disabled"
+msgstr ""
+
+#: assets/admin/workspace.js:411
+msgid "Standard delivery"
+msgstr ""
+
+#: assets/admin/workspace.js:416
+msgid "Create method"
+msgstr ""
+
+#: assets/admin/workspace.js:423
+msgid "Enter a method name."
+msgstr ""
+
+#: assets/admin/workspace.js:428
+msgid "Method created. Publish a rule set before enabling it."
+msgstr ""
+
+#: assets/admin/workspace.js:430
+msgid "New shipping method"
+msgstr ""
+
+#: assets/admin/workspace.js:433
+msgid "Shipping zone"
+msgstr ""
+
+#: assets/admin/workspace.js:434
+msgid "Cancel"
+msgstr ""
+
+#: assets/admin/workspace.js:442
+msgid "Search names and zones"
+msgstr ""
+
+#: assets/admin/workspace.js:443
+msgid "Search shipping methods"
+msgstr ""
+
+#: assets/admin/workspace.js:444 assets/admin/workspace.js:445
+msgid "Shipping methods"
+msgstr ""
+
+#: assets/admin/workspace.js:450 assets/admin/workspace.js:537
+msgid "Add method"
+msgstr ""
+
+#: assets/admin/workspace.js:473
+msgid "WooCommerce zones"
+msgstr ""
+
+#: assets/admin/workspace.js:474
+msgid "Manage shipping rates"
+msgstr ""
+
+#: assets/admin/workspace.js:475
+msgid "Set what each shipping method costs and when it appears at checkout."
+msgstr ""
+
+#: assets/admin/workspace.js:484 assets/admin/workspace.js:1367
+#: assets/admin/workspace.js:1501
+msgid "Shipping method"
+msgstr ""
+
+#: assets/admin/workspace.js:486 assets/admin/workspace.js:521
+msgid "No shipping methods yet."
+msgstr ""
+
+#: assets/admin/workspace.js:491
+msgid "Zone"
+msgstr ""
+
+#: assets/admin/workspace.js:520
+msgid "No matching methods."
+msgstr ""
+
+#: assets/admin/workspace.js:526
+msgid "Discard unsaved changes?"
+msgstr ""
+
+#: assets/admin/workspace.js:536
+msgid "Choose a shipping method"
+msgstr ""
+
+#: assets/admin/workspace.js:559
+msgid "Could not load this method"
+msgstr ""
+
+#: assets/admin/workspace.js:560 assets/admin/workspace.js:1655
+msgid "Try again"
+msgstr ""
+
+#: assets/admin/workspace.js:582
+msgid "Draft saved"
+msgstr ""
+
+#: assets/admin/workspace.js:583
+#, javascript-format
+msgid "Live revision %d"
+msgstr ""
+
+#: assets/admin/workspace.js:584
+msgid "No published revision"
+msgstr ""
+
+#: assets/admin/workspace.js:589
+msgid "Open the simulator with the last saved draft?"
+msgstr ""
+
+#: assets/admin/workspace.js:594
+msgid "Preview rates"
+msgstr ""
+
+#: assets/admin/workspace.js:598
+msgid "A change is already in progress."
+msgstr ""
+
+#: assets/admin/workspace.js:624
+msgid "Save draft"
+msgstr ""
+
+#: assets/admin/workspace.js:632
+msgid "Draft saved."
+msgstr ""
+
+#: assets/admin/workspace.js:635
+msgid "Publish"
+msgstr ""
+
+#: assets/admin/workspace.js:640
+msgid "This revision is already published."
+msgstr ""
+
+#: assets/admin/workspace.js:643
+msgid "Publish this rule set? Enabled methods use it immediately."
+msgstr ""
+
+#: assets/admin/workspace.js:667
+msgid "Rules published."
+msgstr ""
+
+#: assets/admin/workspace.js:670
+msgid "Disable method"
+msgstr ""
+
+#: assets/admin/workspace.js:670
+msgid "Enable method"
+msgstr ""
+
+#: assets/admin/workspace.js:672
+msgid "Discard unsaved edits and change the method status?"
+msgstr ""
+
+#: assets/admin/workspace.js:675
+msgid "Remove this method from checkout?"
+msgstr ""
+
+#: assets/admin/workspace.js:682
+msgid "Method disabled."
+msgstr ""
+
+#: assets/admin/workspace.js:682
+msgid "Method enabled."
+msgstr ""
+
+#: assets/admin/workspace.js:685
+msgid "Duplicate method"
+msgstr ""
+
+#: assets/admin/workspace.js:687
+msgid "Save your changes before duplicating this method."
+msgstr ""
+
+#: assets/admin/workspace.js:696
+msgid "Method duplicated as a disabled draft."
+msgstr ""
+
+#: assets/admin/workspace.js:705
+msgid "These rules adjust this provider’s existing rates."
+msgstr ""
+
+#: assets/admin/workspace.js:717
+msgid "Checkout title"
+msgstr ""
+
+#: assets/admin/workspace.js:719
+msgid "Taxable"
+msgstr ""
+
+#: assets/admin/workspace.js:719
+msgid "No shipping tax"
+msgstr ""
+
+#: assets/admin/workspace.js:723
+msgid "Shown under the shipping method when the checkout supports descriptions."
+msgstr ""
+
+#: assets/admin/workspace.js:726
+msgid "2–3 business days"
+msgstr ""
+
+#: assets/admin/workspace.js:734
+msgid "Separate IDs with commas. Leave blank to apply to every service from this method."
+msgstr ""
+
+#: assets/admin/workspace.js:739
+msgid "Add all matching costs"
+msgstr ""
+
+#: assets/admin/workspace.js:740
+msgid "Use the lowest cost"
+msgstr ""
+
+#: assets/admin/workspace.js:741
+msgid "Use the highest cost"
+msgstr ""
+
+#: assets/admin/workspace.js:742
+msgid "Use the first match"
+msgstr ""
+
+#: assets/admin/workspace.js:746
+msgid "Advanced method settings"
+msgstr ""
+
+#: assets/admin/workspace.js:749
+msgid "Exclude merchandise taxes"
+msgstr ""
+
+#: assets/admin/workspace.js:750
+msgid "Include merchandise taxes"
+msgstr ""
+
+#: assets/admin/workspace.js:754
+msgid "Used when a rule measures dimensional weight."
+msgstr ""
+
+#: assets/admin/workspace.js:758
+msgid "Leave blank to hide this method when no rule matches."
+msgstr ""
+
+#: assets/admin/workspace.js:764
+msgid "Optional image from the Media Library."
+msgstr ""
+
+#: assets/admin/workspace.js:788
+msgid "Minimum items"
+msgstr ""
+
+#: assets/admin/workspace.js:819
+msgid "Set a base charge"
+msgstr ""
+
+#: assets/admin/workspace.js:821
+#, javascript-format
+msgid "%d adjustment"
+msgid_plural "%d adjustments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/admin/workspace.js:829
+msgid "Choose a template"
+msgstr ""
+
+#: assets/admin/workspace.js:830
+msgid "Flat delivery charge"
+msgstr ""
+
+#: assets/admin/workspace.js:831
+msgid "Two weight bands"
+msgstr ""
+
+#: assets/admin/workspace.js:832
+msgid "Destination-based delivery"
+msgstr ""
+
+#: assets/admin/workspace.js:833
+msgid "Hide for oversized goods"
+msgstr ""
+
+#: assets/admin/workspace.js:835
+msgid "Use template"
+msgstr ""
+
+#: assets/admin/workspace.js:840
+msgid "Replace the rules in this draft with a template?"
+msgstr ""
+
+#: assets/admin/workspace.js:846
+msgid "Up to 5"
+msgstr ""
+
+#: assets/admin/workspace.js:848
+msgid "Over 5"
+msgstr ""
+
+#: assets/admin/workspace.js:868
+msgid "Add rule"
+msgstr ""
+
+#: assets/admin/workspace.js:883 assets/admin/workspace.js:1241
+#, javascript-format
+msgid "Rule %d"
+msgstr ""
+
+#: assets/admin/workspace.js:897
+msgid "↑"
+msgstr ""
+
+#: assets/admin/workspace.js:898
+#, javascript-format
+msgid "Move rule %d up"
+msgstr ""
+
+#: assets/admin/workspace.js:901
+msgid "↓"
+msgstr ""
+
+#: assets/admin/workspace.js:902
+#, javascript-format
+msgid "Move rule %d down"
+msgstr ""
+
+#: assets/admin/workspace.js:905
+msgid "Duplicate"
+msgstr ""
+
+#: assets/admin/workspace.js:911
+#, javascript-format
+msgid "Duplicate rule %d"
+msgstr ""
+
+#: assets/admin/workspace.js:913
+#, javascript-format
+msgid "Remove rule %d from the draft?"
+msgstr ""
+
+#: assets/admin/workspace.js:923
+#, javascript-format
+msgid "Remove rule %d"
+msgstr ""
+
+#: assets/admin/workspace.js:930
+#, javascript-format
+msgid "Edit rule %d"
+msgstr ""
+
+#: assets/admin/workspace.js:939
+msgid "Use method scope"
+msgstr ""
+
+#: assets/admin/workspace.js:963
+msgid "No rules in this draft"
+msgstr ""
+
+#: assets/admin/workspace.js:964
+msgid "Add a rule or use a template to start pricing this method."
+msgstr ""
+
+#: assets/admin/workspace.js:977
+msgid "Checkout checks the rules from top to bottom."
+msgstr ""
+
+#: assets/admin/workspace.js:980
+msgid "Rule template"
+msgstr ""
+
+#: assets/admin/workspace.js:987
+msgid "Separate product IDs with commas, or search below."
+msgstr ""
+
+#: assets/admin/workspace.js:988
+msgid "Separate variation IDs with commas, or search variations below."
+msgstr ""
+
+#: assets/admin/workspace.js:989
+msgid "Use category IDs or slugs, separated by commas."
+msgstr ""
+
+#: assets/admin/workspace.js:990
+msgid "Use tag IDs or slugs, separated by commas."
+msgstr ""
+
+#: assets/admin/workspace.js:991
+msgid "Use class IDs or slugs, separated by commas."
+msgstr ""
+
+#: assets/admin/workspace.js:992
+msgid "Use role keys such as customer or guest, separated by commas."
+msgstr ""
+
+#: assets/admin/workspace.js:993
+msgid "Use two-letter country codes such as GE or GB, separated by commas."
+msgstr ""
+
+#: assets/admin/workspace.js:994
+msgid "Use ISO currency codes such as GEL or EUR, separated by commas."
+msgstr ""
+
+#: assets/admin/workspace.js:996
+msgid "Separate multiple values with commas."
+msgstr ""
+
+#: assets/admin/workspace.js:1002
+msgid "All conditions must match"
+msgstr ""
+
+#: assets/admin/workspace.js:1003
+msgid "Any condition can match"
+msgstr ""
+
+#: assets/admin/workspace.js:1040
+msgid "Within the range"
+msgstr ""
+
+#: assets/admin/workspace.js:1041
+msgid "Outside the range"
+msgstr ""
+
+#: assets/admin/workspace.js:1056
+msgid "Exclude the lower boundary"
+msgstr ""
+
+#: assets/admin/workspace.js:1057
+msgid "Exclude the upper boundary"
+msgstr ""
+
+#: assets/admin/workspace.js:1062
+msgid "Matches any value"
+msgstr ""
+
+#: assets/admin/workspace.js:1063
+msgid "Matches all values"
+msgstr ""
+
+#: assets/admin/workspace.js:1064
+msgid "Matches none of the values"
+msgstr ""
+
+#: assets/admin/workspace.js:1065
+msgid "Matches only these values"
+msgstr ""
+
+#: assets/admin/workspace.js:1074
+msgid "In stock"
+msgstr ""
+
+#: assets/admin/workspace.js:1075
+msgid "Out of stock"
+msgstr ""
+
+#: assets/admin/workspace.js:1076
+msgid "On backorder"
+msgstr ""
+
+#: assets/admin/workspace.js:1088
+msgid "Select one or more values."
+msgstr ""
+
+#: assets/admin/workspace.js:1109
+#, javascript-format
+msgid "Condition %d"
+msgstr ""
+
+#: assets/admin/workspace.js:1111
+msgid "Remove condition"
+msgstr ""
+
+#: assets/admin/workspace.js:1119
+msgid "Without conditions, this rule always matches."
+msgstr ""
+
+#: assets/admin/workspace.js:1122
+msgid "Add condition"
+msgstr ""
+
+#: assets/admin/workspace.js:1148
+msgid "Add adjustment"
+msgstr ""
+
+#: assets/admin/workspace.js:1160
+msgid "Fixed adjustment"
+msgstr ""
+
+#: assets/admin/workspace.js:1161
+msgid "Per increment"
+msgstr ""
+
+#: assets/admin/workspace.js:1162 assets/admin/workspace.js:1173
+msgid "Percentage"
+msgstr ""
+
+#: assets/admin/workspace.js:1186
+msgid "Up"
+msgstr ""
+
+#: assets/admin/workspace.js:1186
+msgid "Down"
+msgstr ""
+
+#: assets/admin/workspace.js:1187
+msgid "To the nearest increment"
+msgstr ""
+
+#: assets/admin/workspace.js:1192
+#, javascript-format
+msgid "Adjustment %d"
+msgstr ""
+
+#: assets/admin/workspace.js:1194
+msgid "Remove adjustment"
+msgstr ""
+
+#: assets/admin/workspace.js:1217
+msgid "Matches a pricing rule"
+msgstr ""
+
+#: assets/admin/workspace.js:1218
+msgid "Uses the fallback charge"
+msgstr ""
+
+#: assets/admin/workspace.js:1219
+msgid "Qualifies for free shipping"
+msgstr ""
+
+#: assets/admin/workspace.js:1220
+msgid "Keeps the provider’s original rate"
+msgstr ""
+
+#: assets/admin/workspace.js:1221
+msgid "A rule hides this rate"
+msgstr ""
+
+#: assets/admin/workspace.js:1222
+msgid "No pricing rule matched"
+msgstr ""
+
+#: assets/admin/workspace.js:1223
+msgid "Requires a signed-in customer"
+msgstr ""
+
+#: assets/admin/workspace.js:1224
+msgid "The package contains no shippable items"
+msgstr ""
+
+#: assets/admin/workspace.js:1225
+msgid "The calculation could not be completed"
+msgstr ""
+
+#: assets/admin/workspace.js:1226
+msgid "Condition did not match"
+msgstr ""
+
+#: assets/admin/workspace.js:1227
+msgid "A required measurement is missing"
+msgstr ""
+
+#: assets/admin/workspace.js:1228
+msgid "There is no published rule set yet"
+msgstr ""
+
+#: assets/admin/workspace.js:1229
+msgid "The shipping method is disabled"
+msgstr ""
+
+#: assets/admin/workspace.js:1236
+msgid "No rates to compare."
+msgstr ""
+
+#: assets/admin/workspace.js:1239
+msgid "Rule results"
+msgstr ""
+
+#: assets/admin/workspace.js:1246
+msgid "Matched"
+msgstr ""
+
+#: assets/admin/workspace.js:1246
+msgid "Skipped"
+msgstr ""
+
+#: assets/admin/workspace.js:1252
+#, javascript-format
+msgid "%d line"
+msgid_plural "%d lines"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/admin/workspace.js:1259
+msgid "Unavailable"
+msgstr ""
+
+#: assets/admin/workspace.js:1263
+#, javascript-format
+msgid "%s left for free shipping"
+msgstr ""
+
+#: assets/admin/workspace.js:1264
+#, javascript-format
+msgid "%s more items for free shipping"
+msgstr ""
+
+#: assets/admin/workspace.js:1271
+#, javascript-format
+msgid "Charge adjusted from %1$s to %2$s by the configured limits."
+msgstr ""
+
+#: assets/admin/workspace.js:1298
+msgid "Quantity"
+msgstr ""
+
+#: assets/admin/workspace.js:1304
+#, javascript-format
+msgid "Remove %s"
+msgstr ""
+
+#: assets/admin/workspace.js:1307
+msgid "Use products from the catalog"
+msgstr ""
+
+#: assets/admin/workspace.js:1309
+msgid "When you add products, the preview uses their actual prices, quantities, and shipping attributes."
+msgstr ""
+
+#: assets/admin/workspace.js:1315 assets/admin/workspace.js:1401
+msgid "Preview a shipping rate"
+msgstr ""
+
+#: assets/admin/workspace.js:1316
+msgid "Go to methods"
+msgstr ""
+
+#: assets/admin/workspace.js:1333
+msgid "Calculate rates"
+msgstr ""
+
+#: assets/admin/workspace.js:1335
+msgid "Provider’s original charge"
+msgstr ""
+
+#: assets/admin/workspace.js:1336
+msgid "Enter a current quote to test adjustments to this service."
+msgstr ""
+
+#: assets/admin/workspace.js:1355
+#, javascript-format
+msgid "The draft changes this rate by %s."
+msgstr ""
+
+#: assets/admin/workspace.js:1357
+msgid "The draft adds a shipping option for this package."
+msgstr ""
+
+#: assets/admin/workspace.js:1358
+msgid "The draft removes this shipping option for this package."
+msgstr ""
+
+#: assets/admin/workspace.js:1361
+msgid "Published rate"
+msgstr ""
+
+#: assets/admin/workspace.js:1362
+msgid "Draft rate"
+msgstr ""
+
+#: assets/admin/workspace.js:1369
+msgid "Package weight"
+msgstr ""
+
+#: assets/admin/workspace.js:1372
+msgid "Taxes, discounts, and measurements"
+msgstr ""
+
+#: assets/admin/workspace.js:1375
+msgid "Value including merchandise tax"
+msgstr ""
+
+#: assets/admin/workspace.js:1376
+msgid "Discount amount"
+msgstr ""
+
+#: assets/admin/workspace.js:1382
+msgid "Destination, customer, and timing"
+msgstr ""
+
+#: assets/admin/workspace.js:1391
+msgid "Use a role key such as guest, customer, or wholesale_customer."
+msgstr ""
+
+#: assets/admin/workspace.js:1393
+msgid "Current day"
+msgstr ""
+
+#: assets/admin/workspace.js:1394
+msgid "Store time"
+msgstr ""
+
+#: assets/admin/workspace.js:1395
+msgid "Leave blank to use the current store time."
+msgstr ""
+
+#: assets/admin/workspace.js:1396
+msgid "Apply an eligible free-shipping coupon"
+msgstr ""
+
+#: assets/admin/workspace.js:1402
+msgid "Compare published and draft rules for the same package. Results show pricing before WooCommerce applies checkout taxes."
+msgstr ""
+
+#: assets/admin/workspace.js:1424
+msgid "Download JSON"
+msgstr ""
+
+#: assets/admin/workspace.js:1429
+msgid "No settings are available to export."
+msgstr ""
+
+#: assets/admin/workspace.js:1434
+msgid "Download CSV tariffs"
+msgstr ""
+
+#: assets/admin/workspace.js:1439
+msgid "No supported tariffs are available to export."
+msgstr ""
+
+#: assets/admin/workspace.js:1444
+msgid "Download diagnostics"
+msgstr ""
+
+#: assets/admin/workspace.js:1468
+msgid "Earlier revisions appear after you publish more than once."
+msgstr ""
+
+#: assets/admin/workspace.js:1476
+msgid "Live"
+msgstr ""
+
+#: assets/admin/workspace.js:1477
+msgid "Restore revision"
+msgstr ""
+
+#: assets/admin/workspace.js:1478
+msgid "Restore this revision as the live rule set?"
+msgstr ""
+
+#: assets/admin/workspace.js:1484
+msgid "Revision restored."
+msgstr ""
+
+#: assets/admin/workspace.js:1486
+#, javascript-format
+msgid "Restore revision %d"
+msgstr ""
+
+#: assets/admin/workspace.js:1488
+#, javascript-format
+msgid "Revision %d"
+msgstr ""
+
+#: assets/admin/workspace.js:1500
+msgid "Revisions and backups"
+msgstr ""
+
+#: assets/admin/workspace.js:1508
+msgid "CodeOn JSON backup"
+msgstr ""
+
+#: assets/admin/workspace.js:1508
+msgid "CSV tariff"
+msgstr ""
+
+#: assets/admin/workspace.js:1509
+msgid "Flexible Shipping export"
+msgstr ""
+
+#: assets/admin/workspace.js:1513
+msgid "Create disabled methods"
+msgstr ""
+
+#: assets/admin/workspace.js:1518
+msgid "Destination zone"
+msgstr ""
+
+#: assets/admin/workspace.js:1537
+msgid "Choose a file smaller than 1 MB."
+msgstr ""
+
+#: assets/admin/workspace.js:1548
+msgid "This file could not be read. Paste its contents instead."
+msgstr ""
+
+#: assets/admin/workspace.js:1552
+msgid "Preview import"
+msgstr ""
+
+#: assets/admin/workspace.js:1572
+msgid "File format"
+msgstr ""
+
+#: assets/admin/workspace.js:1573
+msgid "Import into"
+msgstr ""
+
+#: assets/admin/workspace.js:1574
+msgid "Upload a file"
+msgstr ""
+
+#: assets/admin/workspace.js:1575
+msgid "Or paste export data"
+msgstr ""
+
+#: assets/admin/workspace.js:1585
+#, javascript-format
+msgid "%d rule"
+msgid_plural "%d rules"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/admin/workspace.js:1588
+msgid "Update existing draft"
+msgstr ""
+
+#: assets/admin/workspace.js:1588
+msgid "Import drafts"
+msgstr ""
+
+#: assets/admin/workspace.js:1592
+msgid "Replace the saved draft for this method?"
+msgstr ""
+
+#: assets/admin/workspace.js:1600
+msgid "No shipping methods could be imported."
+msgstr ""
+
+#: assets/admin/workspace.js:1604
+msgid "The existing draft was updated."
+msgstr ""
+
+#: assets/admin/workspace.js:1605
+#, javascript-format
+msgid "%d disabled draft imported."
+msgid_plural "%d disabled drafts imported."
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/admin/workspace.js:1609
+#, javascript-format
+msgid "Open method %d"
+msgstr ""
+
+#: assets/admin/workspace.js:1614
+msgid "Import preview"
+msgstr ""
+
+#: assets/admin/workspace.js:1619
+msgid "Choose a single-method file to update an existing draft."
+msgstr ""
+
+#: assets/admin/workspace.js:1624
+msgid "No shipping methods found in the supplied data."
+msgstr ""
+
+#: assets/admin/workspace.js:1632
+msgid "Import rates"
+msgstr ""
+
+#: assets/admin/workspace.js:1634
+msgid "Review the preview before creating disabled methods or updating an existing draft."
+msgstr ""
+
+#: assets/admin/workspace.js:1639
+msgid "Shipping tools"
+msgstr ""
+
+#: assets/admin/workspace.js:1654
+msgid "Shipping rules could not load"
+msgstr ""
+
+#: assets/blocks/editor.js:6
+msgid "Free shipping progress appears when a cart has an eligible delivery method."
+msgstr ""
+
+#: assets/blocks/block.json
+msgctxt "block title"
+msgid "Free shipping progress"
+msgstr ""
+
+#: assets/blocks/block.json
+msgctxt "block description"
+msgid "Show progress towards free shipping for eligible delivery methods."
+msgstr ""

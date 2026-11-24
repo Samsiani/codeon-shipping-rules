@@ -1,0 +1,25 @@
+{
+  "name": "codeon/codeon-shipping-rules",
+  "description": "Free table-rate shipping for WooCommerce.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=8.1",
+    "automattic/jetpack-autoloader": "^5.0",
+    "codeon/framework": "0.3.26.1"
+  },
+  "repositories": [
+    {"type": "path", "url": "framework", "options": {"symlink": false}}
+  ],
+  "autoload": {
+    "psr-4": {"CodeOn\\ShippingRules\\": "includes/"}
+  },
+  "config": {
+    "platform": {"php": "8.1"},
+    "allow-plugins": {"automattic/jetpack-autoloader": true},
+    "sort-packages": true
+  },
+  "extra": {
+    "jetpack-autoloader": {"classmap-authoritative": false}
+  }
+}

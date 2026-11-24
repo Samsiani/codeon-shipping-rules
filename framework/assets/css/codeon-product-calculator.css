@@ -1,0 +1,531 @@
+/*
+ * CodeOn product-page monthly-payment widget (ProductCalculator).
+ *
+ * Fits the shop's theme: the theme's font and text colour are inherited;
+ * greys, borders and muted text are derived from the inherited colour, so
+ * the widget also reads on dark themes. The bank's colour (or the one the
+ * merchant picked) comes in as --codeon-pc-accent and is used only for the
+ * selected term, the slider and the payment markers.
+ *
+ * Buttons and the slider get a full reset under a doubled class so theme
+ * rules like `.summary button` or `[type=button]` can't restyle them.
+ */
+
+.codeon-pc,
+.codeon-pc *,
+.codeon-pc *::before,
+.codeon-pc *::after {
+    box-sizing: border-box;
+}
+
+.codeon-pc {
+    --codeon-pc-accent: #111827;
+    --codeon-pc-tint: rgba(17, 24, 39, 0.1);
+    --codeon-pc-line: rgba(127, 127, 127, 0.3);
+    --codeon-pc-soft: rgba(127, 127, 127, 0.08);
+    --codeon-pc-fill: 50%;
+    --codeon-pc-thumb: 20px;
+
+    display: block;
+    width: 100%;
+    max-width: 520px;
+    margin: 12px 0 18px;
+    padding: 0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: inherit;
+    text-align: left;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.codeon-pc[hidden] {
+    display: none !important;
+}
+
+.codeon-pc p,
+.codeon-pc ol,
+.codeon-pc li {
+    margin: 0;
+    padding: 0;
+}
+
+.codeon-pc ol {
+    list-style: none;
+}
+
+.codeon-pc li::before {
+    content: none;
+}
+
+/* Muted text: the theme's own text colour, a little lighter. Opacity (not
+   color-mix with currentColor) so it follows the theme's colour even when
+   a theme switches to dark mode after the page has loaded. */
+.codeon-pc .codeon-pc__rest,
+.codeon-pc .codeon-pc__label,
+.codeon-pc .codeon-pc__unit,
+.codeon-pc .codeon-pc__caption,
+.codeon-pc .codeon-pc__note,
+.codeon-pc .codeon-pc__mark,
+.codeon-pc .codeon-pc__date,
+.codeon-pc .codeon-pc__total > span:first-child {
+    opacity: 0.8;
+}
+
+.codeon-pc .codeon-pc__note {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.codeon-pc .codeon-pc__caption,
+.codeon-pc .codeon-pc__mark {
+    font-size: 12px;
+}
+
+.codeon-pc .codeon-pc__logo {
+    display: block;
+    flex: none;
+    width: auto;
+    height: 24px;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+}
+
+/* ── Line ───────────────────────────────────────────────────────────── */
+
+.codeon-pc--line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.codeon-pc--line .codeon-pc__logo {
+    height: 22px;
+}
+
+.codeon-pc .codeon-pc__text {
+    min-width: 0;
+    font-size: 14px;
+}
+
+.codeon-pc .codeon-pc__strong {
+    color: inherit;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* ── Card / calculator / schedule frame ─────────────────────────────── */
+
+.codeon-pc--card,
+.codeon-pc--calculator,
+.codeon-pc--schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid var(--codeon-pc-line);
+    border-radius: 12px;
+    background: transparent;
+}
+
+.codeon-pc .codeon-pc__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.codeon-pc .codeon-pc__bank {
+    min-width: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.codeon-pc .codeon-pc__label {
+    margin-left: auto;
+    padding-left: 8px;
+    font-size: 13px;
+    text-align: right;
+}
+
+.codeon-pc .codeon-pc__amount {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 6px;
+}
+
+.codeon-pc .codeon-pc__big {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.codeon-pc .codeon-pc__unit {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ── Card: term buttons ─────────────────────────────────────────────── */
+
+.codeon-pc .codeon-pc__terms {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.codeon-pc .codeon-pc__chips {
+    display: grid;
+    grid-template-columns: repeat(var(--codeon-pc-cols, 5), minmax(0, 1fr));
+    gap: 6px;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__chip {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 0 4px;
+    border: 1px solid var(--codeon-pc-line);
+    border-radius: 8px;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    text-shadow: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__chip:hover {
+    border-color: var(--codeon-pc-accent);
+    background: transparent;
+    color: inherit;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__chip.is-active {
+    border-color: var(--codeon-pc-accent);
+    background: var(--codeon-pc-tint);
+    font-weight: 700;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__chip:focus {
+    outline: none;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__chip:focus-visible {
+    outline: 2px solid var(--codeon-pc-accent);
+    outline-offset: 2px;
+}
+
+/* ── Calculator: stats + slider ─────────────────────────────────────── */
+
+.codeon-pc .codeon-pc__stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.codeon-pc .codeon-pc__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--codeon-pc-soft);
+}
+
+.codeon-pc .codeon-pc__value {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.codeon-pc .codeon-pc__slider {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__range {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__range:focus-visible {
+    outline: 2px solid var(--codeon-pc-accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__range::-webkit-slider-runnable-track {
+    height: 6px;
+    border: 0;
+    border-radius: 9999px;
+    background: linear-gradient(
+        to right,
+        var(--codeon-pc-accent) 0%,
+        var(--codeon-pc-accent) var(--codeon-pc-fill),
+        var(--codeon-pc-line) var(--codeon-pc-fill),
+        var(--codeon-pc-line) 100%
+    );
+}
+
+.codeon-pc.codeon-pc .codeon-pc__range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: var(--codeon-pc-thumb);
+    height: var(--codeon-pc-thumb);
+    margin-top: -7px;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    background: var(--codeon-pc-accent);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.3);
+    cursor: pointer;
+}
+
+.codeon-pc.codeon-pc .codeon-pc__range::-moz-range-track {
+    height: 6px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--codeon-pc-line);
+}
+
+.codeon-pc.codeon-pc .codeon-pc__range::-moz-range-progress {
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--codeon-pc-accent);
+}
+
+.codeon-pc.codeon-pc .codeon-pc__range::-moz-range-thumb {
+    width: var(--codeon-pc-thumb);
+    height: var(--codeon-pc-thumb);
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    background: var(--codeon-pc-accent);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.3);
+    cursor: pointer;
+}
+
+/* Marks sit under the thumb positions: labels as wide as the thumb,
+   spread edge to edge, line up with the evenly spaced slider steps. */
+.codeon-pc .codeon-pc__marks {
+    display: flex;
+    justify-content: space-between;
+    font-variant-numeric: tabular-nums;
+}
+
+.codeon-pc .codeon-pc__mark {
+    display: flex;
+    flex: none;
+    justify-content: center;
+    width: var(--codeon-pc-thumb);
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.codeon-pc .codeon-pc__mark.is-active {
+    opacity: 1;
+    font-weight: 700;
+}
+
+/* ── Split: card ────────────────────────────────────────────────────── */
+
+.codeon-pc .codeon-pc__title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.codeon-pc .codeon-pc__parts {
+    display: grid;
+    grid-template-columns: repeat(var(--codeon-pc-cols, 4), minmax(0, 1fr));
+    gap: 6px;
+}
+
+.codeon-pc .codeon-pc__part {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    padding: 10px 8px;
+    border-radius: 8px;
+    background: var(--codeon-pc-soft);
+}
+
+.codeon-pc .codeon-pc__bars {
+    display: grid;
+    grid-template-columns: repeat(var(--codeon-pc-bars, 4), minmax(0, 1fr));
+    gap: 2px;
+}
+
+.codeon-pc .codeon-pc__bars > span {
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--codeon-pc-line);
+}
+
+.codeon-pc .codeon-pc__bars > span.is-on {
+    background: var(--codeon-pc-accent);
+}
+
+.codeon-pc .codeon-pc__part-amount {
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* ── Split: schedule ────────────────────────────────────────────────── */
+
+.codeon-pc .codeon-pc__timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.codeon-pc .codeon-pc__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+/* Connector from this dot down to the next one, drawn between the dots
+   (not behind them) so hollow dots work on light and dark themes. */
+.codeon-pc .codeon-pc__row:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: calc(50% + 8px);
+    width: 2px;
+    height: calc(100% - 4px);
+    background: var(--codeon-pc-line);
+}
+
+.codeon-pc .codeon-pc__dot {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--codeon-pc-line);
+    border-radius: 50%;
+    background: transparent;
+}
+
+.codeon-pc .codeon-pc__row.is-first .codeon-pc__dot {
+    border-color: var(--codeon-pc-accent);
+    background: var(--codeon-pc-accent);
+}
+
+.codeon-pc .codeon-pc__row-amount {
+    margin-left: auto;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.codeon-pc .codeon-pc__total {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--codeon-pc-line);
+    font-size: 13px;
+}
+
+.codeon-pc .codeon-pc__total-amount {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* ── Narrow widgets / screens ───────────────────────────────────────── */
+
+/* Payments 2 × 2 when the widget is narrow (phones, narrow summary
+   columns), so amounts like "3,249.75 ₾" keep to their box. */
+.codeon-pc--split {
+    container-type: inline-size;
+}
+
+@container (max-width: 400px) {
+    .codeon-pc .codeon-pc__parts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 400px) {
+    .codeon-pc .codeon-pc__parts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 400px) {
+    .codeon-pc--card,
+    .codeon-pc--calculator,
+    .codeon-pc--schedule {
+        padding: 14px 12px;
+    }
+    .codeon-pc .codeon-pc__big {
+        font-size: 24px;
+    }
+    .codeon-pc .codeon-pc__value {
+        font-size: 19px;
+    }
+    .codeon-pc.codeon-pc .codeon-pc__chip {
+        font-size: 13px;
+    }
+    .codeon-pc .codeon-pc__part {
+        padding: 9px 6px;
+    }
+    .codeon-pc .codeon-pc__part-amount {
+        font-size: 13px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .codeon-pc.codeon-pc .codeon-pc__chip {
+        transition: none;
+    }
+}

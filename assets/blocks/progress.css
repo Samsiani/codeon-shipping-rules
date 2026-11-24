@@ -1,0 +1,5 @@
+.codeon-shipping-progress-item { margin-block: .4rem .75rem; }
+.codeon-shipping-progress-item p { margin: .125rem 0; font-size: .875rem; }
+.codeon-shipping-progress-item progress { width: 100%; max-width: 20rem; height: .65rem; accent-color: currentColor; }
+.codeon-shipping-logo { display: block; object-fit: contain; width: auto; max-width: 4.5rem; max-height: 2rem; margin-block: .35rem; }
+.codeon-shipping-description { display: block; margin-block: .25rem; }

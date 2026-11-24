@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "codeon-shipping-rules/progress",
+  "title": "Free shipping progress",
+  "category": "woocommerce",
+  "icon": "location-alt",
+  "description": "Show progress towards free shipping for eligible delivery methods.",
+  "textdomain": "codeon-shipping-rules",
+  "editorScript": "codeon-shipping-progress-editor",
+  "supports": {"html": false, "multiple": false}
+}
