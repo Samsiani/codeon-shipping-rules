@@ -50,6 +50,8 @@ final class HubRegistry
 
     /** @var bool Has the admin_menu hook already been wired up? */
     private static bool $hookInstalled = false;
+
+    /** @var bool Have the Extensions install services been registered? */
     private static bool $servicesInstalled = false;
 
     /** @var array<string, true> Hub-group → registered flag. */
@@ -189,7 +191,7 @@ final class HubRegistry
     {
         self::$registered          = [];
         self::$hookInstalled       = false;
-        self::$servicesInstalled = false;
+        self::$servicesInstalled   = false;
         self::$topLevelRegistered  = [];
     }
 
@@ -267,7 +269,7 @@ final class HubRegistry
         // suppresses this via the filter and provides its own
         // richer Extensions UX.
         $catalogEnabled = array_filter($rows, static fn (array $row): bool => $row['manifest']->hubCatalog);
-        if ($catalogEnabled && (bool) apply_filters(self::FILTER_DEFAULT_EXTENSIONS, true, $group)) {
+        if ($catalogEnabled !== [] && (bool) apply_filters(self::FILTER_DEFAULT_EXTENSIONS, true, $group)) {
             self::registerDefaultExtensionsSubmenu();
         }
 

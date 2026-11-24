@@ -11,6 +11,9 @@
  *   - .codeon-modal-submit: POSTs the license key to the
  *     codeon_install AJAX action, then redirects to the new
  *     plugin's submenu on success.
+ *   - .codeon-extension-install-free: POSTs the plugin id to the
+ *     codeon_install_free AJAX action (free plugins, no key), then
+ *     redirects the same way.
  *
  * Vanilla JS — no jQuery dependency. The framework's own admin
  * bundle has its global namespace under `window.CodeOnFramework`,
@@ -159,6 +162,59 @@
         }
       });
     }
+
+    $$('.codeon-extension-install-free').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const card = btn.closest('.codeon-extension-card');
+        if (!card || btn.disabled) {
+          return;
+        }
+        const errBox = card.querySelector('.codeon-extension-error');
+        const label = btn.textContent;
+
+        function fail(message) {
+          btn.disabled = false;
+          btn.textContent = label;
+          if (errBox) {
+            errBox.textContent = message;
+            errBox.hidden = false;
+          }
+        }
+
+        btn.disabled = true;
+        btn.textContent = btn.dataset.busy || 'Installing…';
+        if (errBox) {
+          errBox.hidden = true;
+          errBox.textContent = '';
+        }
+
+        const body = new URLSearchParams();
+        body.append('action', 'codeon_install_free');
+        body.append('_ajax_nonce', btn.dataset.nonce || '');
+        body.append('plugin_id', card.getAttribute('data-plugin-id') || '');
+
+        fetch(window.ajaxurl, {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Accept': 'application/json'
+          },
+          body: body.toString()
+        })
+          .then(function (res) { return res.json().catch(function () { return null; }); })
+          .then(function (json) {
+            if (!json || !json.success) {
+              fail((json && json.data && json.data.message) || 'Install failed.');
+              return;
+            }
+            window.location.assign((json.data && json.data.redirect) || window.location.href);
+          })
+          .catch(function () {
+            fail(btn.dataset.networkError || 'Network error. Try again.');
+          });
+      });
+    });
 
     $$('.codeon-extensions-refresh').forEach(function (btn) {
       btn.addEventListener('click', function () {

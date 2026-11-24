@@ -27,10 +27,16 @@ use CodeOn\Framework\License\LicenseClient;
  * `<pluginSlug>_license_key` so the freshly-installed plugin's
  * own LicenseAdapter picks them up on first boot. No global key
  * store — each plugin owns its key.
+ *
+ * Free plugins take {@see handleFree()} instead: no key, no license
+ * call. The plugin must be marked free in the codeon.ge catalog, and
+ * the ZIP always comes from codeon.ge's free download route.
  */
 final class InstallController
 {
     public const ACTION = 'codeon_install';
+    public const ACTION_FREE = 'codeon_install_free';
+    public const FREE_DOWNLOAD_BASE = 'https://codeon.ge/api/download/';
     public const NONCE_ACTION = 'codeon-extensions-install';
 
     public function __construct(
@@ -42,6 +48,59 @@ final class InstallController
     public function register(): void
     {
         add_action('wp_ajax_' . self::ACTION, [$this, 'handle']);
+        add_action('wp_ajax_' . self::ACTION_FREE, [$this, 'handleFree']);
+    }
+
+    /**
+     * One-click install for a free plugin. Only the plugin id comes
+     * from the browser; the slug and the free flag come from the
+     * catalog, and the download URL is fixed to codeon.ge.
+     */
+    public function handleFree(): void
+    {
+        $this->guardRequest();
+
+        $pluginId = isset($_POST['plugin_id']) ? sanitize_text_field((string) $_POST['plugin_id']) : '';
+        if ($pluginId === '') {
+            $this->failure('missing_fields', __('Plugin id is required.', 'codeon-framework'));
+        }
+
+        $catalog = $this->catalog->fetch();
+        if ($catalog === null) {
+            $this->failure('catalog_unavailable', __('The CodeOn catalog is temporarily unreachable. Try again in a minute.', 'codeon-framework'));
+        }
+        $plugin = $catalog->findByPluginId($pluginId);
+        if ($plugin === null || !$plugin->free || $plugin->pluginSlug === '') {
+            $this->failure('unknown_plugin', __('That plugin is not in the catalog. Refresh the Extensions tab and try again.', 'codeon-framework'));
+        }
+
+        // Already on disk (installed in another tab, or by hand):
+        // skip the download and just activate it.
+        $pluginFile = $this->resolveInstalledPluginFile($plugin->pluginSlug);
+        if ($pluginFile === null) {
+            $installResult = $this->runUpgrader(self::FREE_DOWNLOAD_BASE . rawurlencode($plugin->pluginId));
+            if (is_wp_error($installResult)) {
+                /** @var \WP_Error $installResult */
+                $this->failure('install_failed', $installResult->get_error_message());
+            }
+            $pluginFile = $this->resolveInstalledPluginFile($plugin->pluginSlug);
+        }
+        if ($pluginFile === null) {
+            $this->failure('install_unverifiable', __('The plugin was downloaded but we could not locate its main file. Activate it manually from Plugins.', 'codeon-framework'));
+        }
+        if (!is_plugin_active($pluginFile)) {
+            $activation = activate_plugin($pluginFile);
+            if (is_wp_error($activation)) {
+                $this->failure('activation_failed', $activation->get_error_message());
+            }
+        }
+
+        wp_send_json_success([
+            'plugin_slug' => $plugin->pluginSlug,
+            'plugin_file' => $pluginFile,
+            'version'     => $plugin->currentVersion,
+            'redirect'    => add_query_arg(['page' => $plugin->pluginSlug], admin_url('admin.php')),
+        ]);
     }
 
     public function handle(): void
