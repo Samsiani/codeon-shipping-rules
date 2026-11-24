@@ -5,7 +5,7 @@ Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,9 @@ Rules and revisions are retained so you can recover the configuration by reinsta
 WordPress checks the latest GitHub release and installs new versions automatically, after checking the download against the checksum published with the release. To keep updates manual, add `define( 'CODEON_SHIPPING_RULES_AUTO_UPDATE', false );` to `wp-config.php`. Updates then appear in Dashboard → Updates as usual.
 
 == Changelog ==
+
+= 1.0.7 =
+* Updates: Dashboard → Updates always asks GitHub for the latest release, and "Check again" runs a fresh check even right after the previous one, so a new release shows up immediately.
 
 = 1.0.6 =
 * CodeOn → Extensions: free CodeOn plugins have their own "Free plugins" section. "Install free" installs one in a click, no license key needed.
