@@ -1809,3 +1809,37 @@ msgstr ""
 #: assets/admin/workspace.js:762
 msgid "Count them as zero"
 msgstr ""
+
+#: assets/admin/workspace.js:874
+msgid "from %s"
+msgstr ""
+
+#: assets/admin/workspace.js:875
+msgid "up to %s"
+msgstr ""
+
+#: assets/admin/workspace.js:877
+msgid "outside %s"
+msgstr ""
+
+#: assets/admin/workspace.js:887
+msgid "Applies to every order"
+msgstr ""
+
+#: assets/admin/workspace.js:889
+msgid "or"
+msgstr ""
+
+#: assets/admin/workspace.js:1606
+msgid "Choose file"
+msgstr ""
+
+#: assets/admin/workspace.js:1603
+msgid "No file chosen"
+msgstr ""
+
+#: assets/admin/workspace.js:884
+msgid "%d value"
+msgid_plural "%d values"
+msgstr[0] ""
+msgstr[1] ""

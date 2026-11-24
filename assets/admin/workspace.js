@@ -155,19 +155,34 @@
             append(select, options);
         }
         select.value = value ?? '';
+        // Long localized options can be cut off by the column width; the tooltip keeps the full choice readable.
+        const syncTitle = () => {
+            select.title = select.multiple ? '' : select.selectedOptions[0]?.textContent || '';
+        };
+        syncTitle();
+        select.addEventListener('change', syncTitle);
         if (callback) {
             select.addEventListener('change', () => callback(select.value));
         }
         return select;
     }
 
+    // Shows a unit such as kg or ₾ inside the control instead of as a note below it.
+    function withUnit(control, unit) {
+        const suffix = node('span', { class: 'csr-affix-unit', id: 'csr-unit-' + ++fieldId }, unit || '');
+        control.setAttribute('aria-describedby', suffix.id);
+        return node('div', { class: 'csr-affix' }, control, suffix);
+    }
+
     function field(label, control, help = '', full = false) {
         const id = 'csr-control-' + ++fieldId;
-        control.id = id;
+        const target = control.matches('.csr-affix, .csr-file') ? control.firstElementChild : control;
+        target.id = id;
         const wrapper = node('div', { class: 'csr-field' + (full ? ' csr-field-full' : '') },
             node('label', { for: id }, label), control);
         if (help) {
-            control.setAttribute('aria-describedby', id + '-help');
+            const described = target.getAttribute('aria-describedby');
+            target.setAttribute('aria-describedby', (described ? described + ' ' : '') + id + '-help');
             wrapper.append(node('small', { id: id + '-help' }, help));
         }
         return wrapper;
@@ -223,11 +238,29 @@
         if (value == null || value === '' || !Number.isFinite(Number(value))) {
             return '—';
         }
+        // Keep the decimals a merchant entered (6.2) even when the shop rounds prices to whole units.
+        const entered = String(value).split('.')[1]?.replace(/0+$/, '').length || 0;
+        const digits = Math.min(4, Math.max(settings.digits ?? 2, entered));
+        const number = Number(value);
+        if (currencyCode && currencyCode === settings.currency && settings.currencySymbol) {
+            // Match WooCommerce's own price format: symbol, position and separators.
+            const [whole, fraction] = Math.abs(number).toFixed(digits).split('.');
+            const amount = whole.replace(/\B(?=(\d{3})+(?!\d))/g, settings.thousandSeparator ?? ',')
+                + (fraction ? (settings.decimalSeparator ?? '.') + fraction : '');
+            const symbol = settings.currencySymbol;
+            const formatted = {
+                left: symbol + amount,
+                right: amount + symbol,
+                left_space: symbol + ' ' + amount,
+                right_space: amount + ' ' + symbol,
+            }[settings.currencyPosition] ?? symbol + amount;
+            return (number < 0 ? '−' : '') + formatted;
+        }
         try {
             return new Intl.NumberFormat(settings.locale || undefined, {
                 style: 'currency', currency: currencyCode || 'USD',
-                minimumFractionDigits: settings.digits ?? 2, maximumFractionDigits: settings.digits ?? 2,
-            }).format(Number(value));
+                minimumFractionDigits: digits, maximumFractionDigits: digits,
+            }).format(number);
         } catch {
             return String(value) + ' ' + currencyCode;
         }
@@ -826,6 +859,36 @@
             conditions: [{ type: 'always' }], base: '', charges: [], action: 'continue' };
     }
 
+    function conditionSummary(rule) {
+        const parts = (Array.isArray(rule.conditions) ? rule.conditions : []).filter(entry => entry.type && entry.type !== 'always').map(entry => {
+            if (entry.type === 'time' || Object.hasOwn(rangeLabels, entry.type)) {
+                const isMoney = ['price', 'gross_price', 'price_before_discount', 'gross_before_discount', 'running_cost'].includes(entry.type);
+                const unit = entry.type === 'time' ? '' : unitFor(entry.type);
+                const show = value => isMoney ? currency(value) : String(value) + (unit ? '\u00a0' + unit : '');
+                const hasMin = entry.min != null && entry.min !== '';
+                const hasMax = entry.max != null && entry.max !== '';
+                // "0\u20133.5 kg": a measured range names its unit once.
+                const both = isMoney ? show(entry.min) + '\u2013' + show(entry.max)
+                    : String(entry.min) + '\u2013' + String(entry.max) + (unit ? '\u00a0' + unit : '');
+                let range = hasMin && hasMax ? both
+                    : hasMin ? sprintf(__('from %s', 'codeon-shipping-rules'), show(entry.min))
+                        : hasMax ? sprintf(__('up to %s', 'codeon-shipping-rules'), show(entry.max)) : '';
+                if (range && entry.operator === 'not_between') {
+                    range = sprintf(__('outside %s', 'codeon-shipping-rules'), range);
+                }
+                const label = entry.type === 'time' ? __('Time of day', 'codeon-shipping-rules') : rangeLabels[entry.type];
+                return range ? label + ': ' + range : label;
+            }
+            const count = Array.isArray(entry.values) ? entry.values.length : 0;
+            const label = selectionLabels[entry.type] || entry.type;
+            return count ? label + ': ' + sprintf(_n('%d value', '%d values', count, 'codeon-shipping-rules'), count) : label;
+        });
+        if (!parts.length) {
+            return __('Applies to every order', 'codeon-shipping-rules');
+        }
+        return parts.join(rule.logic === 'any' ? ' ' + __('or', 'codeon-shipping-rules') + ' ' : ' \u00b7 ');
+    }
+
     function priceLabel(rule) {
         if (rule.action === 'hide') {
             return actions.hide;
@@ -899,9 +962,11 @@
                 rule.charges = Array.isArray(rule.charges) ? rule.charges : [];
                 const defaultTitle = sprintf(__('Rule %d', 'codeon-shipping-rules'), index + 1);
                 const title = node('strong', {}, rule.label || defaultTitle);
-                const price = node('span', { class: 'csr-help' }, priceLabel(rule));
+                const summary = node('span', { class: 'csr-help' }, conditionSummary(rule));
+                const price = node('span', { class: 'csr-rule-price' }, priceLabel(rule));
                 function updateSummary() {
                     title.textContent = rule.label || defaultTitle;
+                    summary.textContent = conditionSummary(rule);
                     price.textContent = priceLabel(rule);
                 }
                 const move = offset => {
@@ -911,11 +976,11 @@
                     markDirty();
                     drawRules(rule.id, offset < 0 ? 'up' : 'down');
                 };
-                const up = button(__('↑', 'codeon-shipping-rules'), () => move(-1), {
+                const up = button(node('span', { class: 'dashicons dashicons-arrow-up-alt2', 'aria-hidden': 'true' }), () => move(-1), {
                     disabled: index === 0, aria: sprintf(__('Move rule %d up', 'codeon-shipping-rules'), index + 1),
                 });
                 up.dataset.focus = 'up';
-                const down = button(__('↓', 'codeon-shipping-rules'), () => move(1), {
+                const down = button(node('span', { class: 'dashicons dashicons-arrow-down-alt2', 'aria-hidden': 'true' }), () => move(1), {
                     disabled: index === config.rules.length - 1, aria: sprintf(__('Move rule %d down', 'codeon-shipping-rules'), index + 1),
                 });
                 down.dataset.focus = 'down';
@@ -961,7 +1026,7 @@
                     updateSummary();
                 }, { required: rule.action !== 'hide' });
                 const pricing = node('div', { class: 'csr-grid' },
-                    field(__('Base charge', 'codeon-shipping-rules'), baseCharge, settings.currency),
+                    field(__('Base charge', 'codeon-shipping-rules'), withUnit(baseCharge, settings.currencySymbol || settings.currency)),
                     field(__('After a match', 'codeon-shipping-rules'),
                         select(rule.action || 'continue', actions, value => {
                             rule.action = value;
@@ -972,7 +1037,7 @@
                 details.append(node('div', { class: 'csr-rule-content csr-stack' },
                     identity, conditionsEditor(rule), pricing, chargesEditor(rule, updateSummary)));
                 return node('li', { class: 'csr-rule', 'data-rule-key': rule.id },
-                    node('div', { class: 'csr-rule-head' }, node('span', { class: 'csr-stack', style: 'gap: var(--codeon-space-1)' }, title, price),
+                    node('div', { class: 'csr-rule-head' }, node('span', { class: 'csr-rule-title' }, title, summary), price,
                         node('div', { class: 'csr-rule-controls' }, up, down, duplicate, remove)), details);
             });
             list.replaceChildren(...rows);
@@ -1064,9 +1129,9 @@
                         const measure = isTime ? '' : unitFor(type);
                         attributes.append(
                             field(isTime ? __('From time', 'codeon-shipping-rules') : __('From', 'codeon-shipping-rules'),
-                                decimalOrTime(condition.min, change(condition, 'min')), measure),
+                                measure ? withUnit(decimalOrTime(condition.min, change(condition, 'min')), measure) : decimalOrTime(condition.min, change(condition, 'min'))),
                             field(isTime ? __('To time', 'codeon-shipping-rules') : __('To', 'codeon-shipping-rules'),
-                                decimalOrTime(condition.max, change(condition, 'max')), measure)
+                                measure ? withUnit(decimalOrTime(condition.max, change(condition, 'max')), measure) : decimalOrTime(condition.max, change(condition, 'max')))
                         );
                         if (!isTime) {
                             attributes.append(
@@ -1149,7 +1214,7 @@
 
     function unitFor(type) {
         if (['price', 'gross_price', 'price_before_discount', 'gross_before_discount', 'running_cost'].includes(type)) {
-            return settings.currency;
+            return settings.currencySymbol || settings.currency;
         }
         if (['weight', 'dimensional_weight'].includes(type)) {
             return settings.weightUnit;
@@ -1187,17 +1252,17 @@
                     const isFlat = charge.type === 'fixed';
                     const isStep = charge.type === 'step';
                     amountLabel.textContent = charge.type === 'percent'
-                        ? __('Percentage', 'codeon-shipping-rules') : text.amount + ' (' + settings.currency + ')';
+                        ? __('Percentage', 'codeon-shipping-rules') : text.amount + ' (' + (settings.currencySymbol || settings.currency) + ')';
                     const basis = field(__('Based on', 'codeon-shipping-rules'), select(charge.basis || 'weight', chargeBases, value => {
                         charge.basis = value;
                         markDirty();
-                        const note = step.querySelector('small');
-                        if (note) {
-                            note.textContent = unitFor(value);
+                        const unit = step.querySelector('.csr-affix-unit');
+                        if (unit) {
+                            unit.textContent = unitFor(value);
                         }
                     }));
                     const step = field(__('Increment size', 'codeon-shipping-rules'),
-                        decimal(charge.step || '1', change(charge, 'step'), { required: true }), unitFor(charge.basis));
+                        withUnit(decimal(charge.step || '1', change(charge, 'step'), { required: true }), unitFor(charge.basis)));
                     extra.replaceChildren(...[amount, isFlat ? null : basis, isStep ? step : null, isStep ?
                         field(__('Round increments', 'codeon-shipping-rules'), select(charge.rounding || 'up', {
                             up: __('Up', 'codeon-shipping-rules'), down: __('Down', 'codeon-shipping-rules'),
@@ -1382,19 +1447,19 @@
                 results.focus({ preventScroll: true });
             });
         } }, node('div', { class: 'csr-grid' }, field(__('Shipping method', 'codeon-shipping-rules'), method),
-            field(__('Merchandise value', 'codeon-shipping-rules'), decimal(scenario.amount, bind('amount')), settings.currency),
-            field(__('Package weight', 'codeon-shipping-rules'), decimal(scenario.weight, bind('weight')), settings.weightUnit),
+            field(__('Merchandise value', 'codeon-shipping-rules'), withUnit(decimal(scenario.amount, bind('amount')), settings.currencySymbol || settings.currency)),
+            field(__('Package weight', 'codeon-shipping-rules'), withUnit(decimal(scenario.weight, bind('weight')), settings.weightUnit)),
             field(__('Item quantity', 'codeon-shipping-rules'), input(scenario.quantity, bind('quantity'), { type: 'number', min: '1' }))),
         productsInput(scenario),
         node('details', { class: 'csr-details' }, node('summary', {}, __('Taxes, discounts, and measurements', 'codeon-shipping-rules')),
             node('div', { class: 'csr-grid' },
                 baseRate,
-                field(__('Value including merchandise tax', 'codeon-shipping-rules'), decimal(scenario.gross, bind('gross')), settings.currency),
-                field(__('Discount amount', 'codeon-shipping-rules'), decimal(scenario.discount, bind('discount')), settings.currency),
+                field(__('Value including merchandise tax', 'codeon-shipping-rules'), withUnit(decimal(scenario.gross, bind('gross')), settings.currencySymbol || settings.currency)),
+                field(__('Discount amount', 'codeon-shipping-rules'), withUnit(decimal(scenario.discount, bind('discount')), settings.currencySymbol || settings.currency)),
                 field(__('Currency code', 'codeon-shipping-rules'), input(scenario.currency, bind('currency'), { maxlength: '3' })),
-                field(__('Length', 'codeon-shipping-rules'), decimal(scenario.length, bind('length')), settings.dimensionUnit),
-                field(__('Width', 'codeon-shipping-rules'), decimal(scenario.width, bind('width')), settings.dimensionUnit),
-                field(__('Height', 'codeon-shipping-rules'), decimal(scenario.height, bind('height')), settings.dimensionUnit)
+                field(__('Length', 'codeon-shipping-rules'), withUnit(decimal(scenario.length, bind('length')), settings.dimensionUnit)),
+                field(__('Width', 'codeon-shipping-rules'), withUnit(decimal(scenario.width, bind('width')), settings.dimensionUnit)),
+                field(__('Height', 'codeon-shipping-rules'), withUnit(decimal(scenario.height, bind('height')), settings.dimensionUnit))
             )),
         node('details', { class: 'csr-details' }, node('summary', {}, __('Destination, customer, and timing', 'codeon-shipping-rules')),
             node('div', { class: 'csr-grid' },
@@ -1535,6 +1600,13 @@
         const zoneField = field(__('Destination zone', 'codeon-shipping-rules'), zone);
         const content = node('textarea', { rows: 7, spellcheck: 'false', required: true });
         const file = node('input', { type: 'file', accept: '.json,.csv,application/json,text/csv,text/plain' });
+        const noFile = __('No file chosen', 'codeon-shipping-rules');
+        const fileName = node('span', { class: 'csr-help' }, noFile);
+        const filePicker = node('div', { class: 'csr-file' }, file,
+            node('span', { class: 'button', 'aria-hidden': 'true', onclick: () => file.click() }, __('Choose file', 'codeon-shipping-rules')), fileName);
+        file.addEventListener('change', () => {
+            fileName.textContent = file.files?.[0]?.name || noFile;
+        });
         const preview = node('div', { class: 'csr-stack', tabindex: '-1', 'aria-live': 'polite' });
         let previewSession = 0;
         function clearPreview() {
@@ -1553,6 +1625,7 @@
             if (selected.size > 1000000) {
                 flash(__('Choose a file smaller than 1 MB.', 'codeon-shipping-rules'), 'error', true);
                 file.value = '';
+                fileName.textContent = noFile;
                 return;
             }
             try {
@@ -1588,7 +1661,7 @@
             });
         } }, node('div', { class: 'csr-grid' }, field(__('File format', 'codeon-shipping-rules'), format),
             field(__('Import into', 'codeon-shipping-rules'), destination), zoneField),
-        field(__('Upload a file', 'codeon-shipping-rules'), file),
+        field(__('Upload a file', 'codeon-shipping-rules'), filePicker),
         field(__('Or paste export data', 'codeon-shipping-rules'), content),
         node('div', { class: 'csr-bar-actions' }, validate));
 

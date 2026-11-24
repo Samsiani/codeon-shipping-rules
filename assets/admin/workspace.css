@@ -1,4 +1,6 @@
 .csr-workspace {
+    --csr-control-height: 40px;
+    --csr-control-border: var(--codeon-border-strong, #8c8f94);
     --csr-quiet: var(--codeon-bg-page);
     --csr-ink: var(--codeon-text);
     --csr-muted: var(--codeon-text-soft);
@@ -105,7 +107,6 @@
 
 .csr-method-link {
     align-items: center;
-    border-inline-start: 3px solid transparent;
     color: var(--csr-ink) !important;
     display: flex;
     gap: var(--codeon-space-2);
@@ -120,7 +121,8 @@
 }
 
 .csr-method-link[aria-current="page"] {
-    border-inline-start-color: var(--codeon-link);
+    background: color-mix(in srgb, var(--codeon-link) 7%, var(--codeon-bg-card, #fff));
+    color: var(--codeon-link) !important;
     font-weight: 600;
 }
 
@@ -169,12 +171,71 @@
     font-weight: 600;
 }
 
-.csr-field :is(input:not([type=checkbox]), select, textarea),
-.csr-search > input, .csr-search-product > input {
+.csr-field :is(input:not([type=checkbox]):not([type=radio]):not([type=file]), select, textarea),
+.csr-search > input, .csr-search-product > input, .csr-bar-actions select, .csr-rail-compact select {
+    border-color: var(--csr-control-border);
+    border-radius: var(--codeon-radius);
+    font-size: 14px;
     max-width: none;
-    min-height: 36px;
     min-width: 0;
     width: 100%;
+}
+
+/* One height for every single-line control, so rows of fields line up. */
+.csr-field :is(input:not([type=checkbox]):not([type=radio]):not([type=file]), select:not([multiple])),
+.csr-search > input, .csr-search-product > input, .csr-bar-actions select, .csr-rail-compact select {
+    height: var(--csr-control-height);
+    line-height: normal;
+    min-height: var(--csr-control-height);
+    padding-block: 0;
+    padding-inline: 12px;
+}
+
+.csr-workspace select:not([multiple]) {
+    overflow: hidden;
+    padding-inline-end: 32px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.csr-field textarea {
+    padding: 10px 12px;
+}
+
+.csr-affix {
+    display: flex;
+    min-width: 0;
+}
+
+.csr-affix > input {
+    border-end-end-radius: 0 !important;
+    border-start-end-radius: 0 !important;
+    flex: 1 1 auto;
+}
+
+.csr-affix-unit {
+    align-items: center;
+    background: var(--csr-quiet);
+    border: 1px solid var(--csr-control-border);
+    border-end-end-radius: var(--codeon-radius);
+    border-inline-start: 0;
+    border-start-end-radius: var(--codeon-radius);
+    color: var(--csr-muted);
+    display: inline-flex;
+    flex: none;
+    font-size: 13px;
+    min-width: 2.5rem;
+    justify-content: center;
+    padding-inline: 10px;
+    white-space: nowrap;
+}
+
+.csr-affix-unit:empty {
+    display: none;
+}
+
+.csr-affix:has(> .csr-affix-unit:empty) > input {
+    border-radius: var(--codeon-radius) !important;
 }
 
 .csr-field textarea {
@@ -186,19 +247,38 @@
 }
 
 .csr-check {
-    align-items: baseline;
+    align-items: flex-start;
     display: flex;
     gap: var(--codeon-space-2);
+    line-height: 1.5;
 }
 
 .csr-check input {
-    margin: 0;
+    flex: none;
+    margin: 2px 0 0;
 }
 
 .csr-grid {
+    align-items: start;
+    column-gap: var(--codeon-space-4);
     display: grid;
-    gap: var(--codeon-space-3);
-    grid-template-columns: repeat(auto-fit, minmax(min(12.5rem, 100%), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+    row-gap: var(--codeon-space-4);
+}
+
+/* Label, control and help share rows across the columns, so a two-line label never pushes its control out of line. */
+.csr-grid > .csr-field {
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: var(--codeon-space-1);
+}
+
+.csr-grid > .csr-field > label {
+    align-self: end;
+}
+
+.csr-grid > :not(.csr-field) {
+    grid-column: 1 / -1;
 }
 
 .csr-field-full {
@@ -229,13 +309,31 @@
 
 .csr-rule {
     border: 1px solid var(--csr-line);
-    border-inline-start-width: 3px;
     border-radius: var(--codeon-radius);
     overflow: hidden;
 }
 
 .csr-rule:focus-within {
-    border-inline-start-color: var(--codeon-link);
+    border-color: var(--codeon-link);
+}
+
+.csr-rule-title {
+    display: grid;
+    flex: 1 1 14rem;
+    gap: 2px;
+    min-width: 0;
+}
+
+.csr-rule-price {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.csr-rule-controls .dashicons {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
 }
 
 .csr-rule-head {
@@ -353,9 +451,37 @@
 }
 
 .csr-bar-actions, .csr-created-actions {
+    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: var(--codeon-space-2);
+}
+
+.csr-bar-actions > label {
+    flex: 1 1 18rem;
+    max-width: 28rem;
+    min-width: 0;
+}
+
+.csr-file {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--codeon-space-3);
+}
+
+.csr-file > input {
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.csr-file:focus-within > .button {
+    outline: 2px solid var(--codeon-link);
+    outline-offset: 2px;
 }
 
 .csr-search-product {
@@ -439,5 +565,18 @@
     }
     .csr-method-head, .csr-toolbar {
         align-items: flex-start;
+    }
+    .csr-intro .button, .csr-method-head .button, .csr-bar-actions .button {
+        flex: 1 1 auto;
+    }
+    .csr-rule-head {
+        align-items: flex-start;
+    }
+    .csr-rule-controls {
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+    .csr-rule-controls .button:not(:has(.dashicons)) {
+        flex: 1 1 0;
     }
 }

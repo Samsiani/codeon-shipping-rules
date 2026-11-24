@@ -5,7 +5,7 @@ Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,13 @@ Rules and revisions are retained so you can recover the configuration by reinsta
 WordPress checks the latest GitHub release and installs new versions automatically, after checking the download against the checksum published with the release. To keep updates manual, add `define( 'CODEON_SHIPPING_RULES_AUTO_UPDATE', false );` to `wp-config.php`. Updates then appear in Dashboard → Updates as usual.
 
 == Changelog ==
+
+= 1.0.4 =
+* Dashboard: every field and dropdown has the same height, and a field whose label wraps to two lines stays in line with its neighbours.
+* Dashboard: units such as kg and ₾ sit inside the field; prices follow the shop's own format; long options end in "…" with the full text on hover.
+* Dashboard: each rule in the list shows its conditions and price, for example "Weight: 0–3.5 kg · 6.2 ₾", and uses icon buttons to move.
+* Dashboard: a styled file picker on Tools, and no sideways scrolling on phones.
+* Updates: "Check again" on Dashboard → Updates now finds a release published minutes ago.
 
 = 1.0.3 =
 * New: the CodeOn menu now has an Extensions page, as with every CodeOn plugin. It lists the other CodeOn plugins for WooCommerce and shows which ones are installed.
