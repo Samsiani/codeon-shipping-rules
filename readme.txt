@@ -5,7 +5,7 @@ Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,10 @@ Rules and revisions are retained so you can recover the configuration by reinsta
 WordPress checks the latest GitHub release and installs new versions automatically, after checking the download against the checksum published with the release. To keep updates manual, add `define( 'CODEON_SHIPPING_RULES_AUTO_UPDATE', false );` to `wp-config.php`. Updates then appear in Dashboard → Updates as usual.
 
 == Changelog ==
+
+= 1.0.5 =
+* Dashboard: one visual system for every element. Fields, dropdowns, buttons and icon buttons share a 40px height and 6px corners; secondary buttons are neutral and only primary actions are blue.
+* Dashboard: underlined tabs, a drawn chevron on expandable sections, and one focus ring for every control; tabs scroll in one row on phones.
 
 = 1.0.4 =
 * Dashboard: every field and dropdown has the same height, and a field whose label wraps to two lines stays in line with its neighbours.

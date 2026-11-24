@@ -43,7 +43,6 @@
     align-items: center;
     display: inline-flex;
     justify-content: center;
-    min-height: 36px;
     white-space: normal;
 }
 
@@ -352,9 +351,7 @@
     gap: var(--codeon-space-2);
 }
 
-.csr-rule-controls .button {
-    min-width: 36px;
-}
+
 
 .csr-rule > details > summary {
     margin: var(--codeon-space-2) var(--codeon-space-3);
@@ -540,6 +537,164 @@
     width: 100%;
 }
 
+/* Unified visual system: one radius, one control height, one focus ring for every element. */
+.csr-workspace ::selection {
+    background: color-mix(in srgb, var(--codeon-link) 22%, transparent);
+}
+
+.csr-workspace input[type=checkbox] {
+    accent-color: var(--codeon-link);
+}
+
+.csr-workspace :is(input:not([type=checkbox]):not([type=radio]), select, textarea):focus {
+    border-color: var(--codeon-link);
+    box-shadow: 0 0 0 1px var(--codeon-link);
+    outline: none;
+}
+
+.csr-workspace .button {
+    background: var(--codeon-bg-card);
+    border: 1px solid var(--csr-control-border);
+    border-radius: var(--codeon-radius);
+    box-shadow: none;
+    color: var(--csr-ink);
+    font-size: 13px;
+    font-weight: 500;
+    gap: var(--codeon-space-2);
+    height: auto;
+    line-height: 1.3;
+    min-height: var(--csr-control-height);
+    padding: 6px 16px;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.csr-workspace .button:hover {
+    background: var(--csr-quiet);
+    border-color: var(--codeon-text-dim);
+    color: var(--csr-ink);
+}
+
+.csr-workspace .button:focus-visible {
+    box-shadow: none;
+    outline: 2px solid var(--codeon-link);
+    outline-offset: 2px;
+}
+
+.csr-workspace .button-primary {
+    background: var(--codeon-link);
+    border-color: var(--codeon-link);
+    color: #fff;
+}
+
+.csr-workspace .button-primary:hover {
+    background: color-mix(in srgb, var(--codeon-link) 86%, #000);
+    border-color: color-mix(in srgb, var(--codeon-link) 86%, #000);
+    color: #fff;
+}
+
+.csr-workspace .button:has(> .dashicons:only-child) {
+    min-width: var(--csr-control-height);
+    padding: 0;
+    width: var(--csr-control-height);
+}
+
+.csr-workspace .button-link {
+    background: none;
+    border: 0;
+    color: var(--codeon-link);
+    min-height: 32px;
+    padding: 0;
+}
+
+.csr-workspace .button-link:hover {
+    background: none;
+    color: color-mix(in srgb, var(--codeon-link) 80%, #000);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Tabs read as one underlined navigation row instead of boxed WordPress nav tabs. */
+.codeon-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--codeon-space-1);
+}
+
+.codeon-tabs .nav-tab {
+    background: none;
+    border: 0;
+    border-block-end: 2px solid transparent;
+    border-radius: var(--codeon-radius) var(--codeon-radius) 0 0;
+    color: var(--codeon-text-soft);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0 0 -1px;
+    padding: 10px 14px;
+    transition: background-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.codeon-tabs .nav-tab:hover {
+    background: color-mix(in srgb, var(--codeon-link) 6%, transparent);
+    color: var(--codeon-text);
+}
+
+.codeon-tabs .nav-tab-active, .codeon-tabs .nav-tab-active:hover {
+    background: none;
+    border-block-end-color: var(--codeon-link);
+    color: var(--codeon-link);
+}
+
+.codeon-tabs .nav-tab:focus-visible {
+    box-shadow: none;
+    outline: 2px solid var(--codeon-link);
+    outline-offset: -2px;
+}
+
+/* Disclosure rows share one drawn chevron. */
+.csr-workspace details > summary {
+    align-items: center;
+    display: flex;
+    gap: var(--codeon-space-2);
+    list-style: none;
+    min-height: 32px;
+}
+
+.csr-workspace details > summary::-webkit-details-marker {
+    display: none;
+}
+
+.csr-workspace details > summary::before {
+    border-block-end: 2px solid currentColor;
+    border-inline-end: 2px solid currentColor;
+    content: "";
+    flex: none;
+    height: 7px;
+    margin-inline: 2px 4px;
+    transform: rotate(-45deg);
+    transition: transform 0.15s ease-out;
+    width: 7px;
+}
+
+.csr-workspace details[open] > summary::before {
+    transform: rotate(45deg) translate(-2px, -2px);
+}
+
+.csr-workspace .csr-entry, .csr-workspace .csr-empty, .csr-workspace .codeon-section {
+    border-radius: var(--codeon-radius);
+}
+
+.csr-save-bar {
+    border-block-start: 1px solid var(--csr-line);
+    padding-block-start: var(--codeon-space-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .csr-workspace *, .codeon-tabs .nav-tab {
+        transition: none !important;
+    }
+}
+
 @media (max-width: 1050px) {
     .csr-body {
         grid-template-columns: minmax(0, 1fr);
@@ -575,6 +730,14 @@
     .csr-rule-controls {
         flex-wrap: nowrap;
         width: 100%;
+    }
+    .codeon-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .codeon-tabs .nav-tab {
+        flex: none;
     }
     .csr-rule-controls .button:not(:has(.dashicons)) {
         flex: 1 1 0;
