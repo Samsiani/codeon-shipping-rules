@@ -32,6 +32,11 @@ final class Manifest
      */
     public bool $useHub = false;
 
+    /**
+     * Show the shared Extensions catalog (and register its install
+     * handlers) for this plugin. Defaults to true. A plugin that turns
+     * it off still joins the hub menu.
+     */
     public bool $hubCatalog = true;
 
     /**
@@ -125,8 +130,7 @@ final class Manifest
     }
 
     /**
-     * Override the hub group when the plugin should land under a
-     * different shared top-level (rare). Defaults to 'codeon'.
+     * Turn the shared Extensions catalog on or off for this plugin.
      */
     public function hubCatalog(bool $enabled): self
     {
@@ -134,6 +138,10 @@ final class Manifest
         return $this;
     }
 
+    /**
+     * Override the hub group when the plugin should land under a
+     * different shared top-level (rare). Defaults to 'codeon'.
+     */
     public function hubGroup(string $group): self
     {
         $this->hubGroup = $group;

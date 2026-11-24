@@ -6,7 +6,7 @@
   "require": {
     "php": ">=8.1",
     "automattic/jetpack-autoloader": "^5.0",
-    "codeon/framework": "0.3.26.1"
+    "codeon/framework": "0.3.27"
   },
   "repositories": [
     {"type": "path", "url": "framework", "options": {"symlink": false}}

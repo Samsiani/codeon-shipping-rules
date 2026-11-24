@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a05b0acf35c97eb2f3dff74db0b98db",
+    "content-hash": "a6982ac93354beb55d1545498afdd894",
     "packages": [
         {
             "name": "automattic/jetpack-autoloader",
@@ -72,11 +72,11 @@
         },
         {
             "name": "codeon/framework",
-            "version": "0.3.26.1",
+            "version": "0.3.27",
             "dist": {
                 "type": "path",
                 "url": "framework",
-                "reference": "77cc3583fe2f7a353af5b3b9854b95998152092f"
+                "reference": "3ce3e355c13c8fdf91bb783e7cacf5df15c7cb86"
             },
             "require": {
                 "php": ">=8.1"
