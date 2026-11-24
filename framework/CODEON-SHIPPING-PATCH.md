@@ -1,3 +1,3 @@
 # Framework source for CodeOn Shipping Rules
 
-Based on CodeOn Plugin Framework 0.3.26, upstream commit 4c1c90057fa8955de5d13a6db7337ee37762bb91, GPL-2.0-or-later. The bundled 0.3.26.1 packaging revision adds a catalog setting to the hub manifest. Existing consumers retain the original default.
+Unmodified copy of CodeOn Plugin Framework 0.3.27 (src/, assets/, composer.json), upstream commit f837079eb4b2867b69595e92abdba62f86b657f3, GPL-2.0-or-later. Since 0.3.27 the catalog setting this folder used to patch in is part of the framework.

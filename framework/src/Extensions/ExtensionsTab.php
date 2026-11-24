@@ -116,6 +116,13 @@ class ExtensionsTab extends Tab
                 'inactive'
             );
         }
+        if ($sections['free'] !== []) {
+            $this->renderSection(
+                __('Free plugins', 'codeon-framework'),
+                $sections['free'],
+                'free'
+            );
+        }
         if ($sections['locked'] !== []) {
             $this->renderSection(
                 __('Available to unlock', 'codeon-framework'),
@@ -136,7 +143,7 @@ class ExtensionsTab extends Tab
             '</h2>';
         echo '<p class="codeon-extensions-sub">' .
             esc_html__(
-                'Install and unlock additional CodeOn plugins with your purchased license keys.',
+                'Install free CodeOn plugins in one click, or unlock paid ones with your license key.',
                 'codeon-framework'
             ) .
             '</p>';
@@ -151,7 +158,7 @@ class ExtensionsTab extends Tab
     }
 
     /**
-     * @param array<string, array{plugin: CatalogPlugin, file: ?string}> $cards
+     * @param array<int, array{plugin: CatalogPlugin, file: ?string}> $cards
      */
     private function renderSection(string $title, array $cards, string $bucket): void
     {
@@ -192,7 +199,10 @@ class ExtensionsTab extends Tab
             '<h4 class="codeon-extension-name">%s</h4>',
             esc_html($plugin->name)
         );
-        if ($plugin->popular) {
+        if ($plugin->free) {
+            echo '<span class="codeon-extension-pill codeon-extension-free">' .
+                esc_html__('Free', 'codeon-framework') . '</span>';
+        } elseif ($plugin->popular) {
             echo '<span class="codeon-extension-pill codeon-extension-popular">' .
                 esc_html__('Popular', 'codeon-framework') . '</span>';
         }
@@ -249,6 +259,22 @@ class ExtensionsTab extends Tab
                 esc_html__('Activate', 'codeon-framework')
             );
             $this->renderVersionPill($pluginFile);
+        } elseif ($bucket === 'free') {
+            // Free — one click installs from codeon.ge, no key.
+            printf(
+                '<button type="button" class="button button-primary codeon-extension-install-free" data-nonce="%s" data-busy="%s" data-network-error="%s">%s</button>',
+                esc_attr(wp_create_nonce(InstallController::NONCE_ACTION)),
+                esc_attr__('Installing…', 'codeon-framework'),
+                esc_attr__('Network error. Try again.', 'codeon-framework'),
+                esc_html__('Install free', 'codeon-framework')
+            );
+            if ($plugin->productUrl !== '') {
+                printf(
+                    '<a class="codeon-extension-buy" href="%s" target="_blank" rel="noopener">%s</a>',
+                    esc_url($plugin->productUrl),
+                    esc_html__('Details →', 'codeon-framework')
+                );
+            }
         } else {
             // Locked — primary CTA opens the modal.
             echo '<button type="button" class="button button-primary codeon-extension-unlock">' .
@@ -262,6 +288,9 @@ class ExtensionsTab extends Tab
             }
         }
         echo '</footer>';
+        if ($bucket === 'free') {
+            echo '<p class="codeon-extension-error" role="alert" hidden></p>';
+        }
     }
 
     /**
@@ -343,7 +372,7 @@ class ExtensionsTab extends Tab
      * by joining against the WP `get_plugins()` registry.
      *
      * @param array<string, array<string,mixed>> $allPlugins  WP get_plugins() output
-     * @return array{active: array<int, array{plugin: CatalogPlugin, file: ?string}>, inactive: array<int, array{plugin: CatalogPlugin, file: ?string}>, locked: array<int, array{plugin: CatalogPlugin, file: ?string}>}
+     * @return array{active: array<int, array{plugin: CatalogPlugin, file: ?string}>, inactive: array<int, array{plugin: CatalogPlugin, file: ?string}>, free: array<int, array{plugin: CatalogPlugin, file: ?string}>, locked: array<int, array{plugin: CatalogPlugin, file: ?string}>}
      */
     private function bucketise(Catalog $catalog, array $allPlugins): array
     {
@@ -370,6 +399,7 @@ class ExtensionsTab extends Tab
 
         $active   = [];
         $inactive = [];
+        $free     = [];
         $locked   = [];
 
         foreach ($catalog->plugins as $plugin) {
@@ -382,10 +412,14 @@ class ExtensionsTab extends Tab
                 $inactive[] = ['plugin' => $plugin, 'file' => $pluginFile];
                 continue;
             }
+            if ($plugin->free) {
+                $free[] = ['plugin' => $plugin, 'file' => null];
+                continue;
+            }
             $locked[] = ['plugin' => $plugin, 'file' => null];
         }
 
-        return ['active' => $active, 'inactive' => $inactive, 'locked' => $locked];
+        return ['active' => $active, 'inactive' => $inactive, 'free' => $free, 'locked' => $locked];
     }
 
     private function submenuUrl(string $pluginSlug): string

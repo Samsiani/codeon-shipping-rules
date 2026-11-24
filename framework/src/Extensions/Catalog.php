@@ -136,6 +136,8 @@ final class CatalogPlugin
         public readonly bool $popular,
         public readonly array $requirements,
         public readonly array $products,
+        /** Free plugin: installs in one click from codeon.ge, no license key. */
+        public readonly bool $free = false,
     ) {
     }
 
@@ -178,6 +180,7 @@ final class CatalogPlugin
                 'wc'  => isset($requirements['wc']) ? (string) $requirements['wc'] : null,
             ],
             products: $products,
+            free: (bool) ($data['free'] ?? false),
         );
     }
 
@@ -207,6 +210,7 @@ final class CatalogPlugin
                 'currency'   => $p->currency,
                 'bank'       => $p->bank,
             ], $this->products),
+            'free'           => $this->free,
         ];
     }
 }

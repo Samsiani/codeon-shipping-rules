@@ -20,7 +20,10 @@ namespace CodeOn\Framework\Extensions;
  */
 final class CatalogClient
 {
-    public const TRANSIENT_KEY = 'codeon_framework_catalog_v1';
+    // v2: the catalog also lists free plugins. A new key keeps older
+    // framework copies on the same site from reading free entries
+    // they would show as locked.
+    public const TRANSIENT_KEY = 'codeon_framework_catalog_v2';
     public const ENDPOINT = 'https://codeon.ge/api/v1/catalog';
     public const TTL = 6 * HOUR_IN_SECONDS;
 
@@ -79,6 +82,9 @@ final class CatalogClient
                 'php_version' => PHP_VERSION,
                 'wc_version'  => defined('WC_VERSION') ? WC_VERSION : '',
                 'site_url'    => home_url(),
+                // Older frameworks don't send this, so codeon.ge only
+                // lists free plugins to copies that can install them.
+                'include_free' => '1',
             ],
             self::ENDPOINT
         );
