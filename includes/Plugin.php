@@ -9,6 +9,7 @@ use CodeOn\Framework\Plugin\Manifest;
 use CodeOn\ShippingRules\Admin\Api;
 use CodeOn\ShippingRules\Admin\Dashboard;
 use CodeOn\ShippingRules\Storage\Revisions;
+use CodeOn\ShippingRules\Updates\GitHubUpdater;
 use CodeOn\ShippingRules\WooCommerce\Checkout;
 use CodeOn\ShippingRules\WooCommerce\Rates;
 use CodeOn\ShippingRules\WooCommerce\ShippingMethod;
@@ -17,6 +18,9 @@ final class Plugin
 {
     public static function register(): void
     {
+        // Updates come from GitHub releases and work even while WooCommerce is inactive.
+        (new GitHubUpdater(CODEON_SHIPPING_RULES_FILE, CODEON_SHIPPING_RULES_VERSION, CODEON_SHIPPING_RULES_UPDATE_URI))->register();
+
         add_action('before_woocommerce_init', static function (): void {
             if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
                 \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', CODEON_SHIPPING_RULES_FILE, true);

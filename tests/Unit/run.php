@@ -9,6 +9,8 @@ use CodeOn\ShippingRules\Rules\Diagnostics;
 use CodeOn\ShippingRules\Rules\Evaluator;
 use CodeOn\ShippingRules\Rules\Schema;
 use CodeOn\ShippingRules\Rules\ValidationMessages;
+use CodeOn\ShippingRules\Updates\GitHubUpdater;
+use CodeOn\ShippingRules\WooCommerce\RateLabel;
 
 spl_autoload_register(static function (string $class): void {
     $prefix = 'CodeOn\\ShippingRules\\';
@@ -24,6 +26,9 @@ function __(string $text, string $domain): string
 {
     return $text;
 }
+
+const MINUTE_IN_SECONDS = 60;
+const HOUR_IN_SECONDS = 3600;
 
 function sanitize_text_field(string $text): string
 {
@@ -340,5 +345,124 @@ foreach ([
 $unknown = $importer->parse('flexible', '{"method_title":"Unknown test","method_rules":[{"conditions":[{"condition_id":"unsupported"}]}]}');
 equal('Unsupported source condition yields a per-method import issue', null, $unknown['methods'][0]['config']);
 equal('Unsupported source condition is named in the import issue', true, str_contains($unknown['methods'][0]['issues'][0], 'unsupported'));
+
+// A Flexible Shipping weight table as stored in its method settings: a free band first, then weight tiers with gaps.
+$tier = static fn (string $min, string $max, string $cost): array => [
+    'conditions' => [['condition_id' => 'weight', 'operator' => 'is', 'min' => $min, 'max' => $max]],
+    'cost_per_order' => $cost,
+    'additional_costs' => [],
+    'special_action' => 'none',
+];
+$weightTable = $importer->parse('flexible', json_encode(['shipping_methods' => [[
+    'method_title' => 'Standard',
+    'method_description' => 'Priced by total weight.',
+    'method_free_shipping' => '',
+    'method_free_shipping_requires' => 'order_amount',
+    'method_free_shipping_label' => 'Free',
+    'method_calculation_method' => 'lowest',
+    'cart_calculation' => 'cart',
+    'tax_status' => 'none',
+    'prices_include_tax' => 'no',
+    'method_visibility' => 'no',
+    'method_rules' => json_encode([
+        [
+            'conditions' => [
+                ['condition_id' => 'value', 'operator' => 'is', 'min' => '100.01', 'max' => ''],
+                ['condition_id' => 'weight', 'operator' => 'is', 'min' => '0', 'max' => '50'],
+            ],
+            'cost_per_order' => '0',
+            'additional_costs' => [],
+            'special_action' => 'stop',
+        ],
+        $tier('0', '3.5', '6.2'),
+        $tier('3.51', '10', '12'),
+        $tier('10.1', '20', '21.5'),
+        $tier('20.1', '50', '36'),
+        $tier('50.1', '100', '60.5'),
+        $tier('100.1', '99999', '84.5'),
+    ]),
+]]], JSON_THROW_ON_ERROR));
+equal('Flexible weight table imports without issues', [], $weightTable['methods'][0]['issues']);
+$weightConfig = $weightTable['methods'][0]['config'];
+equal('Flexible weight table keeps its method settings', ['lowest', 'cart', 'none', false, 'net', 'none'], [
+    $weightConfig['aggregation'], $weightConfig['scope'], $weightConfig['tax_status'],
+    $weightConfig['cost_includes_tax'], $weightConfig['value_basis'], $weightConfig['free']['mode'],
+]);
+equal('Flexible free label is shown in brackets on every zero-cost rate', ['Free', true, 'append'], [
+    $weightConfig['free']['label'], $weightConfig['free']['label_on_zero'], $weightConfig['free']['label_format'],
+]);
+foreach ([
+    ['50', '0', '6.20'],
+    ['100', '2', '6.20'],
+    ['100.01', '2', '0.00'],
+    ['150', '50', '0.00'],
+    ['150', '50.05', null],
+    ['150', '60', '60.50'],
+    ['20', '3.5', '6.20'],
+    ['20', '3.505', null],
+    ['20', '3.51', '12.00'],
+    ['20', '10', '12.00'],
+    ['20', '10.05', null],
+    ['20', '10.1', '21.50'],
+    ['20', '20.1', '36.00'],
+    ['20', '100.1', '84.50'],
+    ['20', '100000', null],
+] as [$value, $weight, $expected]) {
+    $quote = Evaluator::quote($weightConfig, ['package' => [['quantity' => 1, 'net' => $value, 'weight' => $weight]], 'decimals' => 2]);
+    equal('Flexible weight table matches at ' . $value . ' and ' . $weight . ' kg', $expected, $quote['available'] ? $quote['cost'] : null);
+}
+equal('Flexible import counts a missing weight as zero', 'zero', $weightConfig['missing_measurements']);
+equal('A product without a weight is priced as zero kilograms', '6.20',
+    Evaluator::quote($weightConfig, ['package' => [['quantity' => 1, 'net' => '50', 'weight' => null]], 'decimals' => 2])['cost']);
+equal('Two products, one without a weight, are priced by the known weight', '12.00',
+    Evaluator::quote($weightConfig, ['package' => [['quantity' => 1, 'net' => '10', 'weight' => null], ['quantity' => 2, 'net' => '20', 'weight' => '2']], 'decimals' => 2])['cost']);
+$strict = Schema::normalize(['rules' => [rule('5', [between('weight', '0', '10')])]]);
+equal('A method hides its rate for a missing weight by default', 'unavailable', $strict['missing_measurements']);
+equal('A default method has no rate for a product without a weight', false,
+    Evaluator::quote($strict, ['package' => [['quantity' => 1, 'weight' => null]]])['available']);
+rejects('An unknown missing-measurement policy is rejected', ['missing_measurements' => 'guess']);
+equal('Flexible weight table rounds half up at a shop precision of zero', '22',
+    Evaluator::quote($weightConfig, ['package' => [['quantity' => 1, 'net' => '20', 'weight' => '15']], 'decimals' => 0])['cost']);
+$prefixed = $importer->parse('flexible', json_encode(['method_title' => 'Gross', 'prices_include_tax' => 'yes', 'method_rules' => []]));
+equal('Flexible prices that include tax keep that setting', true, $prefixed['methods'][0]['config']['cost_includes_tax']);
+
+$appendOnZero = ['label' => 'Free', 'label_on_zero' => true, 'label_format' => 'append'];
+equal('Zero-cost rate gets the free label in brackets', 'Standard (Free)',
+    RateLabel::compose('Standard', 'Free', $appendOnZero, ['available' => true, 'cost' => '0', 'free' => false]));
+equal('Paid rate keeps its title', 'Standard',
+    RateLabel::compose('Standard', 'Free', $appendOnZero, ['available' => true, 'cost' => '6', 'free' => false]));
+equal('Free-shipping rate replaces the title by default', 'Free',
+    RateLabel::compose('Standard', 'Free', ['label' => 'Free'], ['available' => true, 'cost' => '0', 'free' => true]));
+equal('Zero-cost rate keeps its title unless the method asks for the label', 'Standard',
+    RateLabel::compose('Standard', 'Free', ['label' => 'Free', 'label_on_zero' => false], ['available' => true, 'cost' => '0.00', 'free' => false]));
+equal('An empty free label never changes the title', 'Standard',
+    RateLabel::compose('Standard', '', $appendOnZero, ['available' => true, 'cost' => '0', 'free' => true]));
+
+$updateUri = 'https://github.com/Samsiani/codeon-shipping-rules';
+$manifest = [
+    'slug' => 'codeon-shipping-rules',
+    'name' => 'CodeOn Shipping Rules for WooCommerce',
+    'version' => '1.2.3',
+    'package' => $updateUri . '/releases/download/v1.2.3/codeon-shipping-rules-1.2.3.zip',
+    'sha256' => str_repeat('ab', 32),
+    'requires' => '6.8',
+    'requires_php' => '8.1',
+    'tested' => '7.1',
+    'released' => '2026-01-01T00:00:00Z',
+    'sections' => ['changelog' => '<ul><li>Fix</li></ul>', 'bad' => ['not', 'text']],
+];
+$release = GitHubUpdater::validate($manifest, $updateUri);
+equal('Release manifest yields the version and package', ['1.2.3', $manifest['package']], [$release['version'] ?? null, $release['package'] ?? null]);
+equal('Release manifest keeps only text sections', ['changelog'], array_keys($release['sections'] ?? []));
+foreach ([
+    'another repository' => ['package' => 'https://github.com/someone/else/releases/download/v1.2.3/codeon-shipping-rules-1.2.3.zip'],
+    'a tag that differs from the version' => ['version' => '1.2.4'],
+    'a malformed checksum' => ['sha256' => 'not-a-checksum'],
+    'another plugin' => ['slug' => 'other-plugin'],
+    'a non-numeric version' => ['version' => '1.2.3-beta', 'package' => $updateUri . '/releases/download/v1.2.3-beta/codeon-shipping-rules-1.2.3-beta.zip'],
+] as $case => $override) {
+    equal('Release manifest pointing to ' . $case . ' is ignored', null, GitHubUpdater::validate($override + $manifest, $updateUri));
+}
+equal('A missing manifest is ignored', null, GitHubUpdater::validate(null, $updateUri));
 
 echo sprintf("Passed %d rule, configuration, arithmetic, and import assertions.\n", $passed);

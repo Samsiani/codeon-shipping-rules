@@ -35,11 +35,12 @@ final class Evaluator
         }
 
         $divisor = Decimal::parse($config['dim_divisor']);
-        $package = Contents::from($context['package'] ?? $context['cart'] ?? [], $divisor);
+        $missingAsZero = ($config['missing_measurements'] ?? 'unavailable') === 'zero';
+        $package = Contents::from(self::lines($context['package'] ?? $context['cart'] ?? [], $missingAsZero), $divisor);
         if ($package->lines === [] && $baseRate === null) {
             return self::result(false, 0, $decimals, 'empty_package');
         }
-        $cart = isset($context['cart']) ? Contents::from($context['cart'], $divisor) : $package;
+        $cart = isset($context['cart']) ? Contents::from(self::lines($context['cart'], $missingAsZero), $divisor) : $package;
         $scopes = ['package' => $package, 'cart' => $cart];
         $basis = $config['value_basis'];
         $seed = $baseRate ?? 0;
@@ -126,6 +127,27 @@ final class Evaluator
             ];
         }
         return $result;
+    }
+
+    /**
+     * Counts a missing weight or dimension as zero, as WooCommerce and Flexible Shipping do, when the method asks for it.
+     */
+    private static function lines(array $lines, bool $missingAsZero): array
+    {
+        if (!$missingAsZero) {
+            return $lines;
+        }
+        foreach ($lines as $index => $line) {
+            if (!is_array($line)) {
+                continue;
+            }
+            foreach (['weight', 'length', 'width', 'height'] as $measurement) {
+                if (!is_numeric($line[$measurement] ?? null)) {
+                    $lines[$index][$measurement] = '0';
+                }
+            }
+        }
+        return $lines;
     }
 
     private static function calculateRuleCost(array $rule, Contents $contents, string $valueBasis, int $runningCost): ?int

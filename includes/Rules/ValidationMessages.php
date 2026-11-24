@@ -124,6 +124,9 @@ final class ValidationMessages
             'Free shipping before discount' => __('Use the value before discounts', 'codeon-shipping-rules'),
             'Free shipping label' => __('Free rate label', 'codeon-shipping-rules'),
             'Free shipping notice' => __('Show progress toward free shipping', 'codeon-shipping-rules'),
+            'Free label on zero cost' => __('Show the free label whenever the rate costs nothing', 'codeon-shipping-rules'),
+            'Free label format' => __('Free label position', 'codeon-shipping-rules'),
+            'Missing measurements' => __('When a product has no weight or dimensions', 'codeon-shipping-rules'),
             default => null,
         };
     }

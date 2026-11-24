@@ -1777,3 +1777,35 @@ msgstr ""
 msgctxt "block description"
 msgid "Show progress towards free shipping for eligible delivery methods."
 msgstr ""
+
+#: includes/Updates/GitHubUpdater.php:119
+msgid "The downloaded CodeOn Shipping Rules package failed its checksum. The update was not installed."
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:127 assets/admin/workspace.js:796
+msgid "Show the free label whenever the rate costs nothing"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:128 assets/admin/workspace.js:802
+msgid "Free label position"
+msgstr ""
+
+#: assets/admin/workspace.js:84
+msgid "Instead of the method title"
+msgstr ""
+
+#: assets/admin/workspace.js:85
+msgid "After the method title, in brackets"
+msgstr ""
+
+#: includes/Rules/ValidationMessages.php:129 assets/admin/workspace.js:760
+msgid "When a product has no weight or dimensions"
+msgstr ""
+
+#: assets/admin/workspace.js:761
+msgid "Hide this rate"
+msgstr ""
+
+#: assets/admin/workspace.js:762
+msgid "Count them as zero"
+msgstr ""

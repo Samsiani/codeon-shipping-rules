@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 defined('WP_UNINSTALL_PLUGIN') || exit;
 
+// The update cache is not merchant data.
+delete_site_transient('codeon_sr_github_release');
+
 if (!defined('CODEON_SHIPPING_RULES_DELETE_DATA') || !CODEON_SHIPPING_RULES_DELETE_DATA) {
     return;
 }

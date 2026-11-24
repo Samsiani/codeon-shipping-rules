@@ -89,6 +89,7 @@ final class Schema
             'scope' => 'package',
             'aggregation' => 'sum',
             'dim_divisor' => '5000',
+            'missing_measurements' => 'unavailable',
             'min_cost' => '',
             'max_cost' => '',
             'fallback' => '',
@@ -102,6 +103,8 @@ final class Schema
                 'before_discount' => false,
                 'label' => '',
                 'notice' => false,
+                'label_on_zero' => false,
+                'label_format' => 'replace',
             ],
             'rules' => [],
         ];
@@ -130,6 +133,7 @@ final class Schema
             throw new InvalidArgumentException('Minimum cost cannot exceed maximum cost.');
         }
         $config['dim_divisor'] = self::positive($input['dim_divisor'] ?? '5000', 'Dimensional divisor');
+        $config['missing_measurements'] = self::option($input['missing_measurements'] ?? 'unavailable', ['unavailable', 'zero'], 'Missing measurements');
         $config['free'] = self::free($input['free'] ?? []);
         foreach (self::sequence($input['bridge_rate_ids'] ?? [], 'Target rate IDs') as $rateId) {
             $rateId = self::text($rateId, 'Target rate ID', 255);
@@ -292,6 +296,8 @@ final class Schema
             'before_discount' => self::boolean($input['before_discount'] ?? false, 'Free shipping before discount'),
             'label' => self::text($input['label'] ?? '', 'Free shipping label', 255),
             'notice' => self::boolean($input['notice'] ?? false, 'Free shipping notice'),
+            'label_on_zero' => self::boolean($input['label_on_zero'] ?? false, 'Free label on zero cost'),
+            'label_format' => self::option($input['label_format'] ?? 'replace', ['replace', 'append'], 'Free label format'),
         ];
     }
 

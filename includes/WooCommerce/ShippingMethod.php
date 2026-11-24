@@ -77,10 +77,9 @@ final class ShippingMethod extends \WC_Shipping_Method
             return;
         }
 
-        $label = $quote['free'] && $config['free']['label'] !== ''
-            ? ShippingTexts::get($this->instance_id, 'free_label', $config['free']['label'])
-            : ShippingTexts::get($this->instance_id, 'title', $this->title);
-        $label = $label ?: $this->method_title;
+        $title = ShippingTexts::get($this->instance_id, 'title', $this->title) ?: $this->method_title;
+        $freeLabel = $config['free']['label'] !== '' ? ShippingTexts::get($this->instance_id, 'free_label', $config['free']['label']) : '';
+        $label = RateLabel::compose($title, $freeLabel, $config['free'], $quote);
         $description = ShippingTexts::get($this->instance_id, 'description', $config['description']);
         $deliveryTime = ShippingTexts::get($this->instance_id, 'delivery_time', $config['delivery_time']);
         $cost = $quote['cost'];

@@ -5,7 +5,7 @@ Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,7 +55,17 @@ Export JSON for a full configuration. Use CSV for simple individual tiers with o
 
 Rules and revisions are retained so you can recover the configuration by reinstalling. Export your settings before removing them permanently.
 
+= How does the plugin update? =
+
+WordPress checks the latest GitHub release and installs new versions automatically, after checking the download against the checksum published with the release. To keep updates manual, add `define( 'CODEON_SHIPPING_RULES_AUTO_UPDATE', false );` to `wp-config.php`. Updates then appear in Dashboard → Updates as usual.
+
 == Changelog ==
+
+= 1.0.2 =
+* New: automatic updates from GitHub releases. Each download is checked against the release checksum before WordPress installs it.
+* New: "Show the free label whenever the rate costs nothing" and a choice of label position, so a zero-cost rate can read "Standard (Free)".
+* New: choose what happens when a product has no weight or dimensions. The rate is hidden by default, or the product counts as zero.
+* Flexible Shipping imports now match Flexible Shipping more closely: a product without a weight counts as zero, the free label appears in brackets on zero-cost rates, and "Prices include tax" is kept.
 
 = 1.0.1 =
 * First public GitHub release.

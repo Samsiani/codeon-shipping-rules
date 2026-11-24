@@ -63,9 +63,12 @@ final class Flexible
             'aggregation' => ($method['method_calculation_method'] ?? '') ?: 'sum',
             'scope' => $scope,
             'tax_status' => ($method['tax_status'] ?? '') === 'none' ? 'none' : 'taxable',
+            'cost_includes_tax' => self::yes($method['prices_include_tax'] ?? ''),
             'value_basis' => get_option('woocommerce_tax_display_cart') === 'incl' ? 'gross' : 'net',
             'max_cost' => self::decimal($method['method_max_cost'] ?? ''),
             'dim_divisor' => self::decimal(($method['method_weight_ratio'] ?? $method['dimensional_weight_ratio'] ?? '') ?: '5000'),
+            // Flexible Shipping, like WooCommerce, counts a product without a weight or dimensions as zero.
+            'missing_measurements' => 'zero',
             'logged_in_only' => self::yes($method['method_visibility'] ?? ''),
             'default' => self::yes($method['method_default'] ?? ''),
             'free' => [
@@ -75,6 +78,9 @@ final class Flexible
                 'before_discount' => self::yes($method['method_free_shipping_ignore_discounts'] ?? ''),
                 'notice' => self::yes($method['method_free_shipping_cart_notice'] ?? ''),
                 'label' => $method['method_free_shipping_label'] ?? '',
+                // Flexible Shipping adds its free label in brackets to every zero-cost rate.
+                'label_on_zero' => ($method['method_free_shipping_label'] ?? '') !== '',
+                'label_format' => 'append',
             ],
             'rules' => array_map(fn (array $rule): array => $this->rule($rule), array_values($rules)),
         ];
